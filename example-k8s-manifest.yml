@@ -1,0 +1,77 @@
+# An example K8s manifest to deploy the ups-k8s-scaler on a cluster.
+# This manifest will create a service account, a cluster role with the appropriate
+# permissions and a binding, as well as a deployment with a single replica.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ups-k8s-scaler
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ups-k8s-scaler
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["list"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["apps"]
+    resources: ["deployments/scale"]
+    verbs: ["patch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ups-k8s-scaler
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ups-k8s-scaler
+subjects:
+  - kind: ServiceAccount
+    name: ups-k8s-scaler
+    namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ups-k8s-scaler
+  labels:
+    k8s-app: ups-k8s-scaler
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: nut
+  template:
+    metadata:
+      annotations:
+        "enable.version-checker.io/ups-k8s-scaler": "true"
+      labels:
+        k8s-app: ups-k8s-scaler
+    spec:
+      serviceAccountName: nut
+      containers:
+        - name: ups-k8s-scaler
+          image: ghcr.io/growse/ups-k8s-scaler:latest
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128M
+          env:
+            - name: UPSMON_HOST
+              value: "ups_host"
+            - name: UPSMON_USERNAME
+              value: "upsmon"
+            - name: UPSMON_PASSWORD
+              value: "fixmepass"
+            - name: UPSMON_MINONLINE
+              value: "1"
