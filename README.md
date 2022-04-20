@@ -14,14 +14,14 @@ The script then connects to the k8s API, finds all storage classes that are tagg
 
 ### Environment variables
 
-| name            | default     | description                                                                         |
-| --------------- | ----------- | ----------------------------------------------------------------------------------- |
-| UPSMON_NAME     | `ups`       | Name of the UPS to connect to on the target                                         |
-| UPSMON_HOST     | `localhost` | Hostname of running master `nut` instance to connect to                             |
-| UPSMON_PORT     | `3493`      | Port of the running mast `nut` instance to connect to                               |
-| UPSMON_USERNAME | `username`  | Username to use when authenticating to the remote `nut` instance                    |
-| UPSMON_PASSWORD | `password`  | Password to use when authenticating to the remote `nut` instance                    |
-| DRY_RUN         | `false`     | If set, don't actually make any k8s scale changes, just print out what would happen |
+| Name              | Default     | Description                                                                         |
+| ----------------- | ----------- | ----------------------------------------------------------------------------------- |
+| `UPSMON_NAME`     | `ups`       | Name of the UPS to connect to on the target                                         |
+| `UPSMON_HOST`     | `localhost` | Hostname of running master `nut` instance to connect to                             |
+| `UPSMON_PORT`     | `3493`      | Port of the running mast `nut` instance to connect to                               |
+| `UPSMON_USERNAME` | `username`  | Username to use when authenticating to the remote `nut` instance                    |
+| `UPSMON_PASSWORD` | `password`  | Password to use when authenticating to the remote `nut` instance                    |
+| `DRY_RUN`         | `false`     | If set, don't actually make any k8s scale changes, just print out what would happen |
 
 ### Kubernetes
 

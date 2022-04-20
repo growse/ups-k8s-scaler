@@ -50,7 +50,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      k8s-app: nut
+      k8s-app: ups-k8s-scaler
   template:
     metadata:
       annotations:
@@ -58,7 +58,7 @@ spec:
       labels:
         k8s-app: ups-k8s-scaler
     spec:
-      serviceAccountName: nut
+      serviceAccountName: ups-k8s-scaler
       containers:
         - name: ups-k8s-scaler
           image: ghcr.io/growse/ups-k8s-scaler:main
