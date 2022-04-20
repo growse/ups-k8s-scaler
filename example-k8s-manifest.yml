@@ -61,7 +61,7 @@ spec:
       serviceAccountName: nut
       containers:
         - name: ups-k8s-scaler
-          image: ghcr.io/growse/ups-k8s-scaler:latest
+          image: ghcr.io/growse/ups-k8s-scaler:main
           resources:
             limits:
               cpu: 200m
