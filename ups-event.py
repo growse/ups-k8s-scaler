@@ -130,8 +130,9 @@ if __name__ == "__main__":
         logging.error("No UPS event provided")
         exit(1)
 
-    dry_run = os.environ["DRY_RUN"]
-    if dry_run is not None:
+    dry_run = False
+    if "DRY_RUN" in os.environ:
+        dry_run = True
         logging.warning("Dry run mode. Not actually doing anything")
 
     singleton_guard()

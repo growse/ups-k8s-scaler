@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "ups-k8s-scaler"
+version = "0.1.0"
+description = ""
+authors = ["Andrew Rowson <github@growse.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+kubernetes = "^23.6.0"
+
+[tool.poetry.dev-dependencies]
+kubernetes-stubs = "^22.6.0"
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+ups-event = "ups-event"
