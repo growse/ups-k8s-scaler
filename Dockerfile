@@ -43,7 +43,7 @@ RUN poetry install --no-dev
 
 FROM base
 
-# renovate: datasource=repology depName=nut
+# renovate: datasource=repology depName=alpine_edge/nut
 ENV NUT_VERSION=2.7.4-r10
 HEALTHCHECK CMD upsc ups@localhost:3493 2>&1|grep -q stale && exit 1 || true
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' \
