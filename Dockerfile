@@ -28,6 +28,7 @@ RUN apk add --update curl gcc python3-dev musl-dev libffi-dev
 
 # poetry
 # https://python-poetry.org/docs/configuration/#using-environment-variables
+# renovate: datasource=pypi depName=poetry
 ENV POETRY_VERSION=1.1.13
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
@@ -42,7 +43,8 @@ RUN poetry install --no-dev
 
 FROM base
 
-ARG NUT_VERSION=2.7.4-r10
+# renovate: datasource=repology depName=nut
+ENV NUT_VERSION=2.7.4-r10
 HEALTHCHECK CMD upsc ups@localhost:3493 2>&1|grep -q stale && exit 1 || true
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' \
   >>/etc/apk/repositories && \

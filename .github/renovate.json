@@ -9,15 +9,9 @@
   "regexManagers": [
     {
       "fileMatch": ["^Dockerfile$"],
-      "matchStrings": ["ENV NUT_VERSION=(?<currentValue>.*?)\\n"],
-      "depNameTemplate": "nut",
-      "datasourceTemplate": "repology"
-    },
-    {
-      "fileMatch": ["^Dockerfile$"],
-      "matchStrings": ["ENV POETRY_VERSION=(?<currentValue>.*?)\\n"],
-      "depNameTemplate": "poetry",
-      "datasourceTemplate": "pypi"
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=(?<currentValue>.*)\\s"
+      ]
     }
   ]
 }
