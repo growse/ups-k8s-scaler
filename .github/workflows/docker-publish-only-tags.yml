@@ -10,6 +10,8 @@ name: Build, package and publish
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  GRADLE_PROJECT_ROOT: ups-event-scaler
+  GRADLE_ASSEMBLE_TASK_NAME: nativeCompile
 
 jobs:
   build:
@@ -17,6 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '17'
+          components: 'native-image'
+      - run: ./${GRADLE_PROJECT_ROOT}/gradlew -p ${GRADLE_PROJECT_ROOT} ${GRADLE_ASSEMBLE_TASK_NAME} --no-daemon
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Log in to the Container registry
