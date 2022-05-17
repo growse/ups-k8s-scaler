@@ -10,7 +10,7 @@ name: Build, package and publish
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  GRADLE_PROJECT_ROOT: ups-event-scaler
+  GRADLE_PROJECT_ROOT: ups-event-handler
   GRADLE_ASSEMBLE_TASK_NAME: nativeCompile
 
 jobs:
