@@ -10,7 +10,7 @@ name: Build, package and publish
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  GRADLE_PROJECT_ROOT: ups-event-handler
+  GRADLE_PROJECT_ROOT: ups-k8s-scaler
   GRADLE_ASSEMBLE_TASK_NAME: nativeCompile
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - run: ./${GRADLE_PROJECT_ROOT}/gradlew -p ${GRADLE_PROJECT_ROOT} ${GRADLE_ASSEMBLE_TASK_NAME} --no-daemon
+      - run: ./${GRADLE_PROJECT_ROOT}/gradlew -p ${GRADLE_PROJECT_ROOT} check ${GRADLE_ASSEMBLE_TASK_NAME} --no-daemon
       - run: echo ${{ env.GRADLE_PROJECT_ROOT }}/build/native/nativeCompile/${{ env.GRADLE_PROJECT_ROOT }}
       - run: file ${GRADLE_PROJECT_ROOT}/build/native/nativeCompile/${GRADLE_PROJECT_ROOT}
       - run: find ${{ env.GRADLE_PROJECT_ROOT }}

@@ -714,6 +714,10 @@
   "methods":[{"name":"<init>","parameterTypes":["sun.security.x509.X500Name"] }]
 },
 {
+  "name":"kotlin.internal.jdk8.JDK8PlatformImplementations",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"org.bouncycastle.jcajce.provider.asymmetric.COMPOSITE$Mappings",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
