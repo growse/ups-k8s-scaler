@@ -1,3 +1,5 @@
+package com.growse.k8s.upsEventHandler.k8s
+
 import io.kubernetes.client.common.KubernetesObject
 import io.kubernetes.client.custom.V1Patch
 import io.kubernetes.client.openapi.models.V1Scale

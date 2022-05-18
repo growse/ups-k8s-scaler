@@ -1,3 +1,5 @@
+package com.growse.k8s.upsEventHandler
+
 enum class UPSEvents(val cliArg: String) {
     OnLine("online"), OnBattery("onbatt"), LowBattery("lowbatt");
 

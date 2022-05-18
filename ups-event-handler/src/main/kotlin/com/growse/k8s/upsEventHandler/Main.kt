@@ -1,3 +1,7 @@
+package com.growse.k8s.upsEventHandler
+
+
+import com.growse.k8s.upsEventHandler.k8s.*
 import io.kubernetes.client.common.KubernetesObject
 import io.kubernetes.client.custom.V1Patch
 import io.kubernetes.client.openapi.ApiException
@@ -72,11 +76,11 @@ fun main(args: Array<String>) {
             when (it) {
                 is StatefulSet -> ScalableThingWithScaleFunction(
                     it.it(),
-                    AppsV1Api()::patchNamespacedStatefulSetScaleShort
+                    AppsV1Api()::patchNamespacedStatefulSetScale
                 )
                 is Deployment -> ScalableThingWithScaleFunction(
                     it.it(),
-                    AppsV1Api()::patchNamespacedDeploymentScaleShort
+                    AppsV1Api()::patchNamespacedDeploymentScale
                 )
             }
         }

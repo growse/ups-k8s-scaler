@@ -1,5 +1,7 @@
 @file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
 
+package com.growse.k8s.upsEventHandler.k8s
+
 import io.kubernetes.client.custom.V1Patch
 import io.kubernetes.client.openapi.apis.AppsV1Api
 import io.kubernetes.client.openapi.apis.CoreV1Api
@@ -102,7 +104,7 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     watch
 )
 
-fun AppsV1Api.patchNamespacedDeploymentScaleShort(
+fun AppsV1Api.patchNamespacedDeploymentScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
@@ -111,7 +113,7 @@ fun AppsV1Api.patchNamespacedDeploymentScaleShort(
     name, namespace, body, null, dryRun, null, null, null
 )
 
-fun AppsV1Api.patchNamespacedStatefulSetScaleShort(
+fun AppsV1Api.patchNamespacedStatefulSetScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
