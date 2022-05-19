@@ -1,62 +1,66 @@
 package com.growse.k8s.upsEventHandler
 
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.int
 import com.growse.k8s.upsEventHandler.k8s.ScaleDirection
 import com.growse.k8s.upsEventHandler.k8s.scaleK8sResources
 import com.growse.k8s.upsEventHandler.upsClient.Client
 import com.growse.k8s.upsEventHandler.upsClient.SocketTransport
 import io.kubernetes.client.openapi.Configuration
 import io.kubernetes.client.util.Config
-import kotlinx.cli.ArgParser
-import kotlinx.cli.ArgType
-import kotlinx.cli.default
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
-suspend fun main(args: Array<String>): Unit = coroutineScope {
-    launch {
-        val parser = ArgParser("ups-k8s-scaler")
-        val scaleDownImmediatelyOnPowerLoss by parser.option(
-            ArgType.Boolean,
-            "scale-down-immediately",
-            description = "Scale down immediately on power loss"
-        ).default(false)
-        val hostname by parser.option(
-            ArgType.String,
-            "hostname",
-            "H",
-            "Hostname of the remote upsd instance to connect to"
-        ).default("localhost")
-        val port by parser.option(ArgType.Int, "port", "p", "Port of the remote upsd instance to connect to")
-            .default(3493)
+class Main : CliktCommand(name = "ups-k8s-scaler") {
+    private val scaleDownImmediatelyOnPowerLoss: Boolean by option(
+        help = "Scale down immediately when the UPS switches to OnBattery",
+        envvar = "SCALE_DOWN_IMMEDIATELY_ON_POWER_LOSS"
+    ).flag()
+    private val upsdHostname: String by option(
+        help = "Hostname of the remote upsd instance to connect to",
+        envvar = "UPSD_HOSTNAME"
+    ).default("localhost")
+    private val upsdPort: Int by option(
+        help = "Port of the remote upsd instance to connect to",
+        envvar = "UPSD_PORT"
+    ).int().default(3493)
+    private val dryRun: Boolean by option(help = "Dry run scaling actions", envvar = "DRY_RUN").flag()
+    private val debug: Boolean by option(help = "Enable debug logging", envvar = "DEBUG_LOG").flag()
 
-        val dryRun by parser.option(ArgType.Boolean, "dry-run", null, "Dry run scaling actions").default(false)
-        val debug by parser.option(ArgType.Boolean, "debug", "d", "Enable debug logging").default(false)
+    override fun run() {
+        runBlocking {
+            launch {
 
-        parser.parse(args)
+                if (debug) {
+                    System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug");
+                }
+                logger.debug { "Debug logging enabled" }
+                if (dryRun) {
+                    logger.warn { "Dry run mode enabled" }
+                }
 
-        if (debug) {
-            System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug");
-        }
-        logger.debug { "Debug logging enabled" }
-        if (dryRun) {
-            logger.warn { "Dry run mode enabled" }
-        }
+                Configuration.setDefaultApiClient(Config.defaultClient())
 
-        Configuration.setDefaultApiClient(Config.defaultClient())
-
-        SocketTransport(hostname, port.toUShort()).use {
-            Client(
-                it,
-                mapOf(
-                    Client.UPSStates.OnLine to { scaleK8sResources(ScaleDirection.UP, dryRun) },
-                    (if (scaleDownImmediatelyOnPowerLoss) Client.UPSStates.OnBattery else Client.UPSStates.LowBattery) to {
-                        scaleK8sResources(ScaleDirection.DOWN, dryRun)
-                    }
-                )
-            ).connect()
+                SocketTransport(upsdHostname, upsdPort.toUShort()).use {
+                    Client(
+                        it,
+                        mapOf(
+                            Client.UPSStates.OnLine to { scaleK8sResources(ScaleDirection.UP, dryRun) },
+                            (if (scaleDownImmediatelyOnPowerLoss) Client.UPSStates.OnBattery else Client.UPSStates.LowBattery) to {
+                                scaleK8sResources(ScaleDirection.DOWN, dryRun)
+                            }
+                        )
+                    ).connect()
+                }
+            }
         }
     }
 }
+
+fun main(args: Array<String>): Unit = Main().main(args)

@@ -10,13 +10,24 @@ It's a single binary (and also container) that connects to a remote instance of 
 
 ## Running
 
+### Environment variables
+
+| Name                                   | Default     | Description                                                                                  |
+| -------------------------------------- | ----------- | -------------------------------------------------------------------------------------------- |
+| `UPS_NAME`                          | `ups`       | Name of the UPS to connect to on the target                                                  |
+| `UPSD_HOSTNAME`                          | `localhost` | Hostname of running master `upsd` instance to connect to                                     |
+| `UPSD_PORT`                          | `3493`      | Port of the running mast `upsd` instance to connect to                                       |
+| `DEBUG_LOG`                            | `false`     | Whether or not to enable debug logging                                                       |
+| `SCALE_DOWN_IMMEDIATELY_ON_POWER_LOSS` | `false`     | If enabled, start scaling down as soon as power is lost, rather than waiting for low battery |
+| `DRY_RUN`                              | `false`     | If set, don't actually make any k8s scale changes, just print out what would happen          |
+
 ### Locally
 
 ```shell
 ups-k8s-scaler  --help
 Usage: ups-k8s-scaler options_list
 Options:
-    --scale-down-immediately [false] -> Scale down immediately on power loss
+    --scale-down-immediately-on-power-loss [false] -> Scale down immediately on power loss
     --hostname, -H [localhost] -> Hostname of the remote upsd instance to connect to { String }
     --port, -p [3493] -> Port of the remote upsd instance to connect to { Int }
     --dry-run [false] -> Dry run scaling actions
@@ -36,7 +47,7 @@ $
 ### Docker locally
 
 ```shell
-$ docker run --rm -it -e KUBECONFIG=/kubeConfig  -v/home/growse/.kube/config:/kubeConfig ghcr.io/growse/ups-k8s-scaler:main
+$ docker run --rm -it -e KUBECONFIG=/kubeConfig  -e UPSD_HOSTNAME=my-hostname.example.com -v/home/growse/.kube/config:/kubeConfig ghcr.io/growse/ups-k8s-scaler:main
 $
 ```
 
