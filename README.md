@@ -6,22 +6,23 @@ I have a small k8s cluster, and it uses storage from a NAS device that exposes b
 
 ## How it works
 
-Simply runs an instance of `nut` (https://networkupstools.org/) in slave mode connecting to a master instance that's actually managing one or more UPS's. `nut` can be configured to execute a program whenever certain events happen, so this is configured to simply listen for `ONLINE` and `ONBATT` and then execute a magic script.
-
-The script then connects to the k8s API, finds all storage classes that are tagged with a label of `com.growse.k8s.nut/scale-on-battery=true`, then finds all deployments that have volumes with persistent volume claims using one of those storage classes, and then either scales those deployments to 0 (if going `ONBATT`) or 1 (if going `ONLINE`).
+It's a single binary (and also container) that connects to a remote instance of `upsd`, and then polls the first available UPS there. If it detects that the UPS state has changed (between "OnLine", "OnBattery" and "LowBattery"), it then connects to the k8s API, finds all storage classes that are tagged with a label of `com.growse.k8s.nut/scale-on-battery=true`, then finds all deployments that have volumes with persistent volume claims using one of those storage classes, and then either scales those deployments up or down depending on the UPS status change. By default, it will scale to 1 if the new status is "OnLine", and to 0 if the status is "LowBattery".
 
 ## Running
 
-### Environment variables
+### Locally
 
-| Name              | Default     | Description                                                                         |
-| ----------------- | ----------- | ----------------------------------------------------------------------------------- |
-| `UPSMON_NAME`     | `ups`       | Name of the UPS to connect to on the target                                         |
-| `UPSMON_HOST`     | `localhost` | Hostname of running master `nut` instance to connect to                             |
-| `UPSMON_PORT`     | `3493`      | Port of the running mast `nut` instance to connect to                               |
-| `UPSMON_USERNAME` | `username`  | Username to use when authenticating to the remote `nut` instance                    |
-| `UPSMON_PASSWORD` | `password`  | Password to use when authenticating to the remote `nut` instance                    |
-| `DRY_RUN`         | `false`     | If set, don't actually make any k8s scale changes, just print out what would happen |
+```shell
+ups-k8s-scaler  --help
+Usage: ups-k8s-scaler options_list
+Options:
+    --scale-down-immediately [false] -> Scale down immediately on power loss
+    --hostname, -H [localhost] -> Hostname of the remote upsd instance to connect to { String }
+    --port, -p [3493] -> Port of the remote upsd instance to connect to { Int }
+    --dry-run [false] -> Dry run scaling actions
+    --debug, -d [false] -> Enable debug logging
+    --help, -h -> Usage info
+```
 
 ### Kubernetes
 
@@ -29,16 +30,22 @@ Set the desired values for the environment in the k8s manifest, then:
 
 ```shell
 $ kubectl apply -f example-k8s-manifest.yml
+$
 ```
 
 ### Docker locally
 
 ```shell
-$ docker run -it -eUPSMON_HOST=my-ups-host -eUPSMON_USERNAME=upsmon -eUPSMON_PASSWORD=fixmepass ghcr.io/growse/ups-k8s-scaler:main
+$ docker run --rm -it -e KUBECONFIG=/kubeConfig  -v/home/growse/.kube/config:/kubeConfig ghcr.io/growse/ups-k8s-scaler:main
+$
 ```
 
 ## TODO
 
-- [ ] Do statefulsets as well
-- [ ] Figure out a way of setting a dependency ordering
+- [x] Do statefulsets as well
+- [x] Figure out a way of setting a dependency ordering
 - [ ] Use a label to manually include deployments / statefulsets that don't explicitly use a volume.
+- [ ] Use a label to exclude a statefulset / deployment that shouldn't be scaled
+- [ ] Actual dependency graph
+- [ ] Parallelize kuberenetes actions
+- [ ] Wait for online before proceeding

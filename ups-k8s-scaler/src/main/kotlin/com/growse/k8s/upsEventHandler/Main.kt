@@ -1,6 +1,5 @@
 package com.growse.k8s.upsEventHandler
 
-
 import com.growse.k8s.upsEventHandler.k8s.ScaleDirection
 import com.growse.k8s.upsEventHandler.k8s.scaleK8sResources
 import com.growse.k8s.upsEventHandler.upsClient.Client
