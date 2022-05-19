@@ -35,9 +35,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - run: ./${GRADLE_PROJECT_ROOT}/gradlew -p ${GRADLE_PROJECT_ROOT} check ${GRADLE_ASSEMBLE_TASK_NAME} --no-daemon
-      - run: echo ${{ env.GRADLE_PROJECT_ROOT }}/build/native/nativeCompile/${{ env.GRADLE_PROJECT_ROOT }}
-      - run: file ${GRADLE_PROJECT_ROOT}/build/native/nativeCompile/${GRADLE_PROJECT_ROOT}
-      - run: find ${{ env.GRADLE_PROJECT_ROOT }}
       - name: UPX binary
         uses: crazy-max/ghaction-upx@v1.4.0
         with:
