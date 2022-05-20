@@ -2,7 +2,7 @@
 
 A little k8s pod / container that can carry out k8s scaling actions when a UPS goes on battey / on line power.
 
-I have a small k8s cluster, and it uses storage from a NAS device that exposes block devices over iSCSI. When the power goes out and the UPS battery eventually gives up, everything goes down pretty hard, which sometimes has the habit of making whoopsies all over some of the filesystems. So, this process aims to do a graceful shutdown of any k8s pod that's got a volume mounted from the NAS. That way, when everything goes lights-out, all the filesystems should already be quiesced.
+I have a small k8s cluster, and it uses storage from a NAS device that exposes block devices over iSCSI. When the power goes out and the UPS battery eventually gives up, everything goes down pretty hard, which sometimes has the habit of making whoopsies all over some of the filesystems. So, this process aims to do a graceful scale-down of any k8s pod that's got a volume mounted from the NAS. That way, when everything goes lights-out, all the filesystems should already be quiesced.
 
 ## How it works
 
@@ -24,15 +24,19 @@ It's a single binary (and also container) that connects to a remote instance of 
 ### Locally
 
 ```shell
-ups-k8s-scaler  --help
-Usage: ups-k8s-scaler options_list
+Usage: ups-k8s-scaler [OPTIONS]
+
 Options:
-    --scale-down-immediately-on-power-loss [false] -> Scale down immediately on power loss
-    --hostname, -H [localhost] -> Hostname of the remote upsd instance to connect to { String }
-    --port, -p [3493] -> Port of the remote upsd instance to connect to { Int }
-    --dry-run [false] -> Dry run scaling actions
-    --debug, -d [false] -> Enable debug logging
-    --help, -h -> Usage info
+  --scale-down-immediately-on-power-loss
+                                   Scale down immediately on power loss
+  --hostname TEXT                  Hostname of the remote upsd instance to
+                                   connect to
+  --port INT                       Port of the remote upsd instance to connect
+                                   to
+  --dry-run                        Dry run scaling actions
+  --debug                          Enable debug logging
+  -h, --help                       Show this message and exit
+
 ```
 
 ### Kubernetes
