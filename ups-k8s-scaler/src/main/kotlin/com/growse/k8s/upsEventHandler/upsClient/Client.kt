@@ -31,7 +31,8 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
                         try {
                             responseLines.add(readLine())
                         } catch (e: Transport.TimeoutException) {
-                            listOf("TIMEOUT")
+                            logger.error(e) { "Timeout from socket" }
+                            return@let listOf("TIMEOUT")
                         }
                     }
                     responseLines
@@ -41,6 +42,12 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
             }
         }).run(this::parseResponseLines)
     }
+
+    private val errorPrefix = "ERR "
+    private val varPrefix = "VAR "
+    private val timeoutString = "TIMEOUT"
+    private val beginPrefix = "BEGIN "
+    private val endPrefix = "END "
 
     /**
      * Converts a list of lines received from the transport into a [UPSResponse]. A single response can be spread across
@@ -53,20 +60,20 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
         logger.debug("Parsing UPS response: $responseLines")
         return if (responseLines.isEmpty()) {
             UPSResponse.NoResponse
-        } else if (responseLines.size == 1 && responseLines.first().startsWith("ERR ")) {
-            UPSResponse.Error(responseLines.first().substring(4))
-        } else if (responseLines.size == 1 && responseLines.first() == "TIMEOUT") {
+        } else if (responseLines.size == 1 && responseLines.first().startsWith(errorPrefix)) {
+            UPSResponse.Error(responseLines.first().substring(errorPrefix.length))
+        } else if (responseLines.size == 1 && responseLines.first() == timeoutString) {
             UPSResponse.Timeout
-        } else if (responseLines.size == 1 && responseLines.first().startsWith("VAR ") && responseLines.first()
-                .split(" ", limit = 4).size == 4
+        } else if (responseLines.size == 1 && responseLines.first().startsWith(varPrefix) && responseLines.first()
+                .split(" ", limit = 4).size == varPrefix.length
         ) {
             responseLines.first().split(" ", limit = 4)
                 .let { UPSResponse.UPSVariable(it[2], it[3].removeSurrounding("\"")) }
-        } else if (responseLines.first().startsWith("BEGIN ") && responseLines.last()
-                .startsWith("END ") && responseLines.first().substring("BEGIN ".length) == responseLines.last()
-                .substring("END ".length)
+        } else if (responseLines.first().startsWith(beginPrefix) && responseLines.last()
+                .startsWith(endPrefix) && responseLines.first().substring(beginPrefix.length) == responseLines.last()
+                .substring(endPrefix.length)
         ) {
-            when (responseLines.first().substring("BEGIN ".length)) {
+            when (responseLines.first().substring(beginPrefix.length)) {
                 "LIST UPS" -> {
                     UPSResponse.UPSList(responseLines.subList(1, responseLines.size - 1)
                         .map { it.split(" ", limit = 3) }.filter { it.first() == "UPS" }
@@ -127,24 +134,25 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
      * Connects the underlying transport, grabs the list of UPS's from the remote instance and starts monitoring one of
      * them
      */
-    suspend fun connect() {
-        withContext(Dispatchers.Default) {
-            transport.connect()
-            if (transport.isConnected) {
-                logger.info { "Connected to UPS" }
-                when (val upsList = listUps()) {
-                    is UPSResponse.UPSList -> {
-                        logger.info { "There are ${upsList.upsList.size} UPS devices available" }
-                        if (upsList.upsList.isNotEmpty()) {
-                            monitorUps(upsList.upsList.first())
-                        }
-                    }
-                    else -> {
-                        logger.error("Unexpected response from UPS: $upsList")
+    suspend fun connect(): Result<Job> {
+        transport.connect()
+        if (transport.isConnected) {
+            logger.info { "Connected to UPS" }
+            return when (val upsListResponse = listUps()) {
+                is UPSResponse.UPSList -> {
+                    logger.info { "There are ${upsListResponse.upsList.size} UPS devices available" }
+                    if (upsListResponse.upsList.isNotEmpty()) {
+                        Result.success(coroutineScope { launch { monitorUps(upsListResponse.upsList.first()) } })
+                    } else {
+                        Result.failure(NoUPSFoundException())
                     }
                 }
-                logger.info { "Closing transport" }
+                else -> {
+                    Result.failure(UnexpectedResultException(upsListResponse))
+                }
             }
+        } else {
+            return Result.failure(TransportNotConnectedException())
         }
     }
 
@@ -188,5 +196,12 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
              */
             fun parse(arg: String): UPSStates? = values().firstOrNull { it.statusCode == arg.split(" ")[0] }
         }
+    }
+
+    class NoUPSFoundException : Throwable()
+    class TransportNotConnectedException : Throwable()
+    class UnexpectedResultException(val upsResponse: UPSResponse) : Throwable() {
+        override val message: String
+            get() = "Unexpected response from UPSD $upsResponse"
     }
 }

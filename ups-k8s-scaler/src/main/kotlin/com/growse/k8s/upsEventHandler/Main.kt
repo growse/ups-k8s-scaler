@@ -17,6 +17,8 @@ import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
 
+const val DEFAULT_UPSD_PORT = 3493
+
 class Main : CliktCommand(name = "ups-k8s-scaler") {
     private val scaleDownImmediatelyOnPowerLoss: Boolean by option(
         help = "Scale down immediately when the UPS switches to OnBattery",
@@ -29,16 +31,15 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
     private val upsdPort: Int by option(
         help = "Port of the remote upsd instance to connect to",
         envvar = "UPSD_PORT"
-    ).int().default(3493)
+    ).int().default(DEFAULT_UPSD_PORT)
     private val dryRun: Boolean by option(help = "Dry run scaling actions", envvar = "DRY_RUN").flag()
     private val debug: Boolean by option(help = "Enable debug logging", envvar = "DEBUG_LOG").flag()
 
     override fun run() {
         runBlocking {
             launch {
-
                 if (debug) {
-                    System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug");
+                    System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug")
                 }
                 logger.debug { "Debug logging enabled" }
                 if (dryRun) {
@@ -52,11 +53,20 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
                         it,
                         mapOf(
                             Client.UPSStates.OnLine to { scaleK8sResources(ScaleDirection.UP, dryRun) },
-                            (if (scaleDownImmediatelyOnPowerLoss) Client.UPSStates.OnBattery else Client.UPSStates.LowBattery) to {
+                            (if (scaleDownImmediatelyOnPowerLoss)
+                                Client.UPSStates.OnBattery
+                            else
+                                Client.UPSStates.LowBattery) to {
                                 scaleK8sResources(ScaleDirection.DOWN, dryRun)
                             }
                         )
                     ).connect()
+                        .onSuccess { job ->
+                            job.also { logger.info { "Monitor job started" } }.join()
+                        }
+                        .onFailure { throwable ->
+                            logger.error(throwable.cause) { "Unable to monitor UPS" }
+                        }
                 }
             }
         }

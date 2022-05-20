@@ -19,8 +19,9 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.36")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
     implementation("com.github.ajalt.clikt:clikt:3.4.2")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
 }
 
 tasks.test {
@@ -28,7 +29,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "15"
+    kotlinOptions.jvmTarget = "17"
 }
 
 application {
