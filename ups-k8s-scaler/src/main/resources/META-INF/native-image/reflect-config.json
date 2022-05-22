@@ -514,7 +514,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1SeccompProfile",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1SecretEnvSource",

@@ -25,10 +25,12 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
         envvar = "SCALE_DOWN_IMMEDIATELY_ON_POWER_LOSS"
     ).flag()
     private val upsdHostname: String by option(
+        "-H","--hostname",
         help = "Hostname of the remote upsd instance to connect to",
         envvar = "UPSD_HOSTNAME"
     ).default("localhost")
     private val upsdPort: Int by option(
+        "-p", "--port",
         help = "Port of the remote upsd instance to connect to",
         envvar = "UPSD_PORT"
     ).int().default(DEFAULT_UPSD_PORT)
