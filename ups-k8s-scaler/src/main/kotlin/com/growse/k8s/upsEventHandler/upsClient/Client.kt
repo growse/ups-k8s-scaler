@@ -128,6 +128,7 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
                 }
             }
         }
+        job?.join()
     }
 
     /**

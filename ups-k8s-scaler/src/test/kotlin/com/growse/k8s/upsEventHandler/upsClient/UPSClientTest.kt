@@ -2,12 +2,11 @@ package com.growse.k8s.upsEventHandler.upsClient
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-
 import java.util.*
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
-import kotlin.test.Test
 
 @ExperimentalCoroutinesApi
 internal class UPSClientTest {
@@ -81,6 +80,7 @@ internal class UPSClientTest {
                 Client.UPSStates.LowBattery to { lowBatteryToggle = true }
             )).connect()
             assertTrue { result.isSuccess }
+            result.getOrNull()?.join()
             assertTrue { onlineToggle }
             assertFalse { onbatteryToggle }
             assertFalse { lowBatteryToggle }
@@ -107,6 +107,7 @@ internal class UPSClientTest {
                 Client.UPSStates.LowBattery to { lowBatteryToggle = true }
             )).connect()
             assertTrue { result.isSuccess }
+            result.getOrNull()?.join()
             assertFalse { onlineToggle }
             assertTrue { onbatteryToggle }
             assertFalse { lowBatteryToggle }
@@ -133,6 +134,7 @@ internal class UPSClientTest {
                 Client.UPSStates.LowBattery to { lowBatteryToggle = true }
             )).connect()
             assertTrue { result.isSuccess }
+            result.getOrNull()?.join()
             assertFalse { onlineToggle }
             assertFalse { onbatteryToggle }
             assertTrue { lowBatteryToggle }
@@ -159,6 +161,7 @@ internal class UPSClientTest {
                 Client.UPSStates.LowBattery to { lowBatteryToggle = true }
             )).connect()
             assertTrue { result.isSuccess }
+            result.getOrNull()?.join()
             assertTrue { onlineToggle }
             assertFalse { onbatteryToggle }
             assertFalse { lowBatteryToggle }
@@ -185,6 +188,7 @@ internal class UPSClientTest {
                 Client.UPSStates.LowBattery to { lowBatteryToggle = true }
             )).connect()
             assertTrue { result.isSuccess }
+            result.getOrNull()?.join()
             assertFalse { onlineToggle }
             assertFalse { onbatteryToggle }
             assertFalse { lowBatteryToggle }
