@@ -21,7 +21,7 @@ dependencies {
     implementation("com.github.ajalt.clikt:clikt:3.4.2")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
 }
 
 tasks.test {
