@@ -24,8 +24,12 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
         help = "Scale down immediately when the UPS switches to OnBattery",
         envvar = "SCALE_DOWN_IMMEDIATELY_ON_POWER_LOSS"
     ).flag()
+    private val scaleDownImmediately: Boolean by option(
+        help = "Don't connect to upsd, just scale everything down",
+        envvar = "SCALE_DOWN_IMMEDIATELY"
+    ).flag()
     private val upsdHostname: String by option(
-        "-H","--hostname",
+        "-H", "--hostname",
         help = "Hostname of the remote upsd instance to connect to",
         envvar = "UPSD_HOSTNAME"
     ).default("localhost")
