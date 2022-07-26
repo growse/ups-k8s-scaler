@@ -17,7 +17,7 @@ sealed class Either<C, A : C, B : C> {
      *
      * @return an instance of type [C]
      */
-    fun it() = when (this) {
+    fun whichever() = when (this) {
         is Left -> this.left
         is Right -> this.right
     }

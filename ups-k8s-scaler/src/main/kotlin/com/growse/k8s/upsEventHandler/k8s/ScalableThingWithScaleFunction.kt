@@ -7,5 +7,7 @@ import kotlin.reflect.KFunction4
 
 data class ScalableThingWithScaleFunction(
     val obj: KubernetesObject,
-    val scale: KFunction4<String?, String?, V1Patch?, String?, V1Scale>
+    val scale: KFunction4<String?, String?, V1Patch?, String?, V1Scale>,
+    val currentReplicas: Int?,
+    val desiredReplicas: Int
 )

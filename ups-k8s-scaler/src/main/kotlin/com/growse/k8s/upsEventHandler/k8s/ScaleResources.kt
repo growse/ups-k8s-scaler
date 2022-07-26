@@ -77,22 +77,24 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
             when (scaleDirection) {
                 ScaleDirection.UP -> -1
                 ScaleDirection.DOWN -> 1
-            } * (it.it().metadata.labels?.getOrDefault(orderLabelKey, null)?.toInt() ?: defaultOrderValue)
+            } * (it.whichever().metadata.labels?.getOrDefault(orderLabelKey, null)?.toInt() ?: defaultOrderValue)
         }.map {
+            val desiredReplicas = when (scaleDirection) {
+                ScaleDirection.UP -> 1
+                ScaleDirection.DOWN -> 0
+            }
             when (it) {
                 is StatefulSet -> ScalableThingWithScaleFunction(
-                    it.it(), AppsV1Api()::patchNamespacedStatefulSetScale
+                    it.right, AppsV1Api()::patchNamespacedStatefulSetScale, it.right.status?.replicas, desiredReplicas
                 )
                 is Deployment -> ScalableThingWithScaleFunction(
-                    it.it(), AppsV1Api()::patchNamespacedDeploymentScale
+                    it.left, AppsV1Api()::patchNamespacedDeploymentScale, it.left.status?.replicas, desiredReplicas
                 )
             }
+        }.filter {
+            it.desiredReplicas != it.currentReplicas
         }.forEach {
             try {
-                val replicas = when (scaleDirection) {
-                    ScaleDirection.UP -> 1
-                    ScaleDirection.DOWN -> 0
-                }
                 val name = "${it.obj.metadata.namespace}/${it.obj.metadata.name}"
                 if (scaleDirection == ScaleDirection.UP) {
                     val delay = it.obj.metadata?.labels?.get(onlineDelayLabelKey)?.toIntOrNull() ?: defaultOnlineDelay
@@ -101,11 +103,11 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
                         delay(delay.seconds)
                     }
                 }
-                logger.info { "Scaling $name to replicas=$replicas" }
+                logger.info { "Scaling $name from ${it.currentReplicas ?: "unknown"} replicas=${it.desiredReplicas}" }
                 it.scale(
                     it.obj.metadata.name,
                     it.obj.metadata.namespace,
-                    V1Patch("[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": $replicas}]"),
+                    V1Patch("[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": ${it.desiredReplicas}}]"),
                     if (dryRun) "All" else null
                 )
                 yield()
