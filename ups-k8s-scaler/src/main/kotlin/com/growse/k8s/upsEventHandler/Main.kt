@@ -25,18 +25,16 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
         envvar = "SCALE_DOWN_IMMEDIATELY_ON_POWER_LOSS"
     ).flag()
     private val scaleDownImmediately: Boolean by option(
-        help = "Don't connect to upsd, just scale everything down",
-        envvar = "SCALE_DOWN_IMMEDIATELY"
+        help = "Don't connect to upsd, just scale everything down and quit", envvar = "SCALE_DOWN_IMMEDIATELY"
+    ).flag()
+    private val scaleUpImmediately: Boolean by option(
+        help = "Don't connect to upsd, just scale everything up and quit", envvar = "SCALE_UP_IMMEDIATELY"
     ).flag()
     private val upsdHostname: String by option(
-        "-H", "--hostname",
-        help = "Hostname of the remote upsd instance to connect to",
-        envvar = "UPSD_HOSTNAME"
+        "-H", "--hostname", help = "Hostname of the remote upsd instance to connect to", envvar = "UPSD_HOSTNAME"
     ).default("localhost")
     private val upsdPort: Int by option(
-        "-p", "--port",
-        help = "Port of the remote upsd instance to connect to",
-        envvar = "UPSD_PORT"
+        "-p", "--port", help = "Port of the remote upsd instance to connect to", envvar = "UPSD_PORT"
     ).int().default(DEFAULT_UPSD_PORT)
     private val dryRun: Boolean by option(help = "Dry run scaling actions", envvar = "DRY_RUN").flag()
     private val debug: Boolean by option(help = "Enable debug logging", envvar = "DEBUG_LOG").flag()
@@ -53,26 +51,24 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
                 }
 
                 Configuration.setDefaultApiClient(Config.defaultClient())
-
-                SocketTransport(upsdHostname, upsdPort.toUShort()).use {
-                    Client(
-                        it,
-                        mapOf(
-                            Client.UPSStates.OnLine to { scaleK8sResources(ScaleDirection.UP, dryRun) },
-                            (if (scaleDownImmediatelyOnPowerLoss)
-                                Client.UPSStates.OnBattery
-                            else
-                                Client.UPSStates.LowBattery) to {
-                                scaleK8sResources(ScaleDirection.DOWN, dryRun)
-                            }
-                        )
-                    ).connect()
-                        .onSuccess { job ->
+                if (scaleDownImmediately) {
+                    scaleK8sResources(ScaleDirection.DOWN, dryRun)
+                } else if (scaleUpImmediately) {
+                    scaleK8sResources(ScaleDirection.UP, dryRun)
+                } else {
+                    SocketTransport(upsdHostname, upsdPort.toUShort()).use {
+                        Client(
+                            it, mapOf(Client.UPSStates.OnLine to { scaleK8sResources(ScaleDirection.UP, dryRun) },
+                                (if (scaleDownImmediatelyOnPowerLoss) Client.UPSStates.OnBattery
+                                else Client.UPSStates.LowBattery) to {
+                                    scaleK8sResources(ScaleDirection.DOWN, dryRun)
+                                })
+                        ).connect().onSuccess { job ->
                             job.also { logger.info { "Monitor job started" } }.join()
-                        }
-                        .onFailure { throwable ->
+                        }.onFailure { throwable ->
                             logger.error(throwable.cause) { "Unable to monitor UPS" }
                         }
+                    }
                 }
             }
         }
