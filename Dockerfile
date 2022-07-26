@@ -20,7 +20,12 @@ COPY ups-k8s-scaler ups-k8s-scaler
 RUN ups-k8s-scaler/gradlew -p ups-k8s-scaler nativeCompile --no-daemon
 RUN ls -laht ups-k8s-scaler/build/native/nativeCompile
 
-FROM scratch
+FROM alpine:latest as squisher
 COPY --from=gradle /app/ups-k8s-scaler/build/native/nativeCompile/ups-k8s-scaler /ups-k8s-scaler
+RUN apk add upx
+RUN upx /ups-k8s-scaler
+
+FROM scratch
+COPY --from=squisher /ups-k8s-scaler /ups-k8s-scaler
 ENTRYPOINT [ "/ups-k8s-scaler" ]
 CMD []
