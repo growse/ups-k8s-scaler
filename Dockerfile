@@ -3,7 +3,7 @@ FROM debian:bullseye as musltools
 RUN apt-get update && apt-get install --no-install-recommends -y curl unzip build-essential ca-certificates
 RUN mkdir /musl
 WORKDIR /musl
-RUN curl -L -O http://more.musl.cc/10/x86_64-linux-musl/x86_64-linux-musl-native.tgz && tar -zxvf x86_64-linux-musl-native.tgz
+RUN curl -L -O https://more.musl.cc/10/x86_64-linux-musl/x86_64-linux-musl-native.tgz && tar -zxvf x86_64-linux-musl-native.tgz
 RUN curl -L -o zlib-1.2.12.zip https://github.com/madler/zlib/archive/refs/tags/v1.2.12.zip && unzip zlib-1.2.12.zip
 RUN rm -- *.tgz *.zip
 ENV CC=/musl/x86_64-linux-musl-native/bin/gcc
