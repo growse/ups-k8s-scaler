@@ -43,7 +43,7 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
         runBlocking {
             launch {
                 if (debug) {
-                    System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug")
+                    System.setProperty(org.slf4j.simple.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug")
                 }
                 logger.debug { "Debug logging enabled" }
                 if (dryRun) {
