@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.21"
     application
-    id("org.graalvm.buildtools.native") version "0.9.14"
+    id("org.graalvm.buildtools.native") version "0.9.15"
 }
 
 group = "com.growse.k8s.upsEventHandler"
