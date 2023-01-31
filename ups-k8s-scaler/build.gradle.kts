@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.kubernetes:client-java:17.0.0")
+    implementation("io.kubernetes:client-java:17.0.1")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
     implementation("org.slf4j:slf4j-simple:2.0.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
