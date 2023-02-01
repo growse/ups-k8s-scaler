@@ -457,6 +457,11 @@
   "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1ProjectedVolumeSource",
+  "allDeclaredFields":true,
+  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1QuobyteVolumeSource",
   "allDeclaredFields":true,
   "queriedMethods":[{"name":"<init>","parameterTypes":[] }]

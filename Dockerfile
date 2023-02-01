@@ -15,7 +15,11 @@ COPY --from=gradle /app/ups-k8s-scaler/build/native/nativeCompile/ups-k8s-scaler
 RUN apk add upx
 RUN upx /ups-k8s-scaler
 
+FROM bitnami/kubectl:1.25.6 as kubectl
+
 FROM scratch
 COPY --from=squisher /ups-k8s-scaler /ups-k8s-scaler
+COPY --from=kubectl /opt/bitnami/kubectl/bin/kubectl /kubectl
+ENV PATH=/
 ENTRYPOINT [ "/ups-k8s-scaler" ]
 CMD []
