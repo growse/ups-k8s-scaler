@@ -23,24 +23,26 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
      */
     private fun sendCommand(command: String): UPSResponse {
         transport.writeLine(command)
-        return (transport.run {
-            readLine().let {
-                if (it.startsWith("BEGIN ")) {
-                    val responseLines = mutableListOf(it)
-                    while (!responseLines.last().startsWith("END ")) {
-                        try {
-                            responseLines.add(readLine())
-                        } catch (e: Transport.TimeoutException) {
-                            logger.error(e) { "Timeout from socket" }
-                            return@let listOf("TIMEOUT")
+        return (
+            transport.run {
+                readLine().let {
+                    if (it.startsWith("BEGIN ")) {
+                        val responseLines = mutableListOf(it)
+                        while (!responseLines.last().startsWith("END ")) {
+                            try {
+                                responseLines.add(readLine())
+                            } catch (e: Transport.TimeoutException) {
+                                logger.error(e) { "Timeout from socket" }
+                                return@let listOf("TIMEOUT")
+                            }
                         }
+                        responseLines
+                    } else {
+                        listOf(it)
                     }
-                    responseLines
-                } else {
-                    listOf(it)
                 }
             }
-        }).run(this::parseResponseLines)
+            ).run(this::parseResponseLines)
     }
 
     private val errorPrefix = "ERR "
@@ -65,20 +67,23 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
         } else if (responseLines.size == 1 && responseLines.first() == timeoutString) {
             UPSResponse.Timeout
         } else if (responseLines.size == 1 && responseLines.first().startsWith(varPrefix) && responseLines.first()
-                .split(" ", limit = 4).size == varPrefix.length
+            .split(" ", limit = 4).size == varPrefix.length
         ) {
             responseLines.first().split(" ", limit = 4)
                 .let { UPSResponse.UPSVariable(it[2], it[3].removeSurrounding("\"")) }
         } else if (responseLines.first().startsWith(beginPrefix) && responseLines.last()
-                .startsWith(endPrefix) && responseLines.first().substring(beginPrefix.length) == responseLines.last()
+            .startsWith(endPrefix) && responseLines.first().substring(beginPrefix.length) == responseLines.last()
                 .substring(endPrefix.length)
         ) {
             when (responseLines.first().substring(beginPrefix.length)) {
                 "LIST UPS" -> {
-                    UPSResponse.UPSList(responseLines.subList(1, responseLines.size - 1)
-                        .map { it.split(" ", limit = 3) }.filter { it.first() == "UPS" }
-                        .map { UPS(it[1], if (it.size == 3) it[2].removeSurrounding("\"") else "") })
+                    UPSResponse.UPSList(
+                        responseLines.subList(1, responseLines.size - 1)
+                            .map { it.split(" ", limit = 3) }.filter { it.first() == "UPS" }
+                            .map { UPS(it[1], if (it.size == 3) it[2].removeSurrounding("\"") else "") }
+                    )
                 }
+
                 else -> {
                     UPSResponse.UnKnownResponse
                 }
@@ -118,11 +123,13 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
                                 }
                             }
                         }
+
                         else -> {
                             logger.error("Unable to parse ups status: ${upsStateValue.value}")
                         }
                     }
                 }
+
                 else -> {
                     logger.error("Unexpected response from UPS status call: $upsStateValue")
                 }
@@ -148,6 +155,7 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
                         Result.failure(NoUPSFoundException())
                     }
                 }
+
                 else -> {
                     Result.failure(UnexpectedResultException(upsListResponse))
                 }

@@ -108,16 +108,30 @@ fun AppsV1Api.patchNamespacedDeploymentScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
-    dryRun: String? = null,
+    dryRun: String? = null
 ): V1Scale = this.patchNamespacedDeploymentScale(
-    name, namespace, body, null, dryRun, null, null, null
+    name,
+    namespace,
+    body,
+    null,
+    dryRun,
+    null,
+    null,
+    null
 )
 
 fun AppsV1Api.patchNamespacedStatefulSetScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
-    dryRun: String? = null,
+    dryRun: String? = null
 ): V1Scale = this.patchNamespacedStatefulSetScale(
-    name, namespace, body, null, dryRun, null, null, null
+    name,
+    namespace,
+    body,
+    null,
+    dryRun,
+    null,
+    null,
+    null
 )

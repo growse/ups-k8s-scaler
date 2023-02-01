@@ -63,9 +63,9 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
         .items
         .filter { deployment ->
             deployment.metadata?.labels?.containsKey(orderLabelKey) ?: false ||
-                    deployment.spec?.template?.spec?.volumes?.any {
-                        persistentVolumesWithStorageClassNames.contains(it.persistentVolumeClaim?.claimName)
-                    } ?: false
+                deployment.spec?.template?.spec?.volumes?.any {
+                    persistentVolumesWithStorageClassNames.contains(it.persistentVolumeClaim?.claimName)
+                } ?: false
         }.map { Deployment(it) }
 
     yield()
@@ -85,10 +85,17 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
             }
             when (it) {
                 is StatefulSet -> ScalableThingWithScaleFunction(
-                    it.right, AppsV1Api()::patchNamespacedStatefulSetScale, it.right.status?.replicas, desiredReplicas
+                    it.right,
+                    AppsV1Api()::patchNamespacedStatefulSetScale,
+                    it.right.status?.replicas,
+                    desiredReplicas
                 )
+
                 is Deployment -> ScalableThingWithScaleFunction(
-                    it.left, AppsV1Api()::patchNamespacedDeploymentScale, it.left.status?.replicas, desiredReplicas
+                    it.left,
+                    AppsV1Api()::patchNamespacedDeploymentScale,
+                    it.left.status?.replicas,
+                    desiredReplicas
                 )
             }
         }.filter {
