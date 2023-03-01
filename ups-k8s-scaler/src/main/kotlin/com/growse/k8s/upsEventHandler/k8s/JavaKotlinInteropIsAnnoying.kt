@@ -18,7 +18,7 @@ fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
-    watch: Boolean? = null
+    watch: Boolean? = null,
 ): V1PersistentVolumeClaimList = this.listPersistentVolumeClaimForAllNamespaces(
     allowWatchBookmarks,
     _continue,
@@ -29,7 +29,7 @@ fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
     resourceVersion,
     resourceVersionMatch,
     timeoutSeconds,
-    watch
+    watch,
 )
 
 fun StorageV1Api.listStorageClass(
@@ -42,7 +42,7 @@ fun StorageV1Api.listStorageClass(
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
-    watch: Boolean? = null
+    watch: Boolean? = null,
 ): V1StorageClassList = this.listStorageClass(
     pretty,
     allowWatchBookmarks,
@@ -53,7 +53,7 @@ fun StorageV1Api.listStorageClass(
     resourceVersion,
     resourceVersionMatch,
     timeoutSeconds,
-    watch
+    watch,
 )
 
 fun AppsV1Api.listStatefulSetForAllNamespaces(
@@ -66,7 +66,7 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
-    watch: Boolean? = null
+    watch: Boolean? = null,
 ): V1StatefulSetList = this.listStatefulSetForAllNamespaces(
     allowWatchBookmarks,
     _continue,
@@ -77,7 +77,7 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
     resourceVersion,
     resourceVersionMatch,
     timeoutSeconds,
-    watch
+    watch,
 )
 
 fun AppsV1Api.listDeploymentForAllNamespaces(
@@ -90,7 +90,7 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
-    watch: Boolean? = null
+    watch: Boolean? = null,
 ): V1DeploymentList = this.listDeploymentForAllNamespaces(
     allowWatchBookmarks,
     _continue,
@@ -101,14 +101,14 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     resourceVersion,
     resourceVersionMatch,
     timeoutSeconds,
-    watch
+    watch,
 )
 
 fun AppsV1Api.patchNamespacedDeploymentScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
-    dryRun: String? = null
+    dryRun: String? = null,
 ): V1Scale = this.patchNamespacedDeploymentScale(
     name,
     namespace,
@@ -117,14 +117,14 @@ fun AppsV1Api.patchNamespacedDeploymentScale(
     dryRun,
     null,
     null,
-    null
+    null,
 )
 
 fun AppsV1Api.patchNamespacedStatefulSetScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
-    dryRun: String? = null
+    dryRun: String? = null,
 ): V1Scale = this.patchNamespacedStatefulSetScale(
     name,
     namespace,
@@ -133,5 +133,5 @@ fun AppsV1Api.patchNamespacedStatefulSetScale(
     dryRun,
     null,
     null,
-    null
+    null,
 )

@@ -102,7 +102,8 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
             try {
                 val name = "${it.thing.whichever().metadata.namespace}/${it.thing.whichever().metadata.name}"
                 if (scaleDirection == ScaleDirection.UP) {
-                    val delay = it.thing.whichever().metadata?.labels?.get(onlineDelayLabelKey)?.toIntOrNull() ?: defaultOnlineDelay
+                    val delay = it.thing.whichever().metadata?.labels?.get(onlineDelayLabelKey)?.toIntOrNull()
+                        ?: defaultOnlineDelay
                     logger.info { "Pausing for $delay seconds before scaling $name up" }
                     if (!dryRun) {
                         delay(delay.seconds)
