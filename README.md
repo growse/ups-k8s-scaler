@@ -13,10 +13,10 @@ It's a single binary (and also container) that connects to a remote instance of 
 ### Environment variables
 
 | Name                                   | Default     | Description                                                                                  |
-| -------------------------------------- | ----------- | -------------------------------------------------------------------------------------------- |
-| `UPS_NAME`                          | `ups`       | Name of the UPS to connect to on the target                                                  |
-| `UPSD_HOSTNAME`                          | `localhost` | Hostname of running master `upsd` instance to connect to                                     |
-| `UPSD_PORT`                          | `3493`      | Port of the running mast `upsd` instance to connect to                                       |
+|----------------------------------------|-------------|----------------------------------------------------------------------------------------------|
+| `UPS_NAME`                             | `ups`       | Name of the UPS to connect to on the target                                                  |
+| `UPSD_HOSTNAME`                        | `localhost` | Hostname of running master `upsd` instance to connect to                                     |
+| `UPSD_PORT`                            | `3493`      | Port of the running mast `upsd` instance to connect to                                       |
 | `DEBUG_LOG`                            | `false`     | Whether or not to enable debug logging                                                       |
 | `SCALE_DOWN_IMMEDIATELY_ON_POWER_LOSS` | `false`     | If enabled, start scaling down as soon as power is lost, rather than waiting for low battery |
 | `DRY_RUN`                              | `false`     | If set, don't actually make any k8s scale changes, just print out what would happen          |
