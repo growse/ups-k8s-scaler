@@ -85,38 +85,49 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
             }
             when (it) {
                 is StatefulSet -> ScalableThingWithScaleFunction(
-                    it.right,
-                    AppsV1Api()::patchNamespacedStatefulSetScale,
+                    it,
                     it.right.status?.replicas,
-                    desiredReplicas
+                    desiredReplicas,
                 )
 
                 is Deployment -> ScalableThingWithScaleFunction(
-                    it.left,
-                    AppsV1Api()::patchNamespacedDeploymentScale,
+                    it,
                     it.left.status?.replicas,
-                    desiredReplicas
+                    desiredReplicas,
                 )
             }
         }.filter {
             it.desiredReplicas != it.currentReplicas
         }.forEach {
             try {
-                val name = "${it.obj.metadata.namespace}/${it.obj.metadata.name}"
+                val name = "${it.thing.whichever().metadata.namespace}/${it.thing.whichever().metadata.name}"
                 if (scaleDirection == ScaleDirection.UP) {
-                    val delay = it.obj.metadata?.labels?.get(onlineDelayLabelKey)?.toIntOrNull() ?: defaultOnlineDelay
+                    val delay = it.thing.whichever().metadata?.labels?.get(onlineDelayLabelKey)?.toIntOrNull() ?: defaultOnlineDelay
                     logger.info { "Pausing for $delay seconds before scaling $name up" }
                     if (!dryRun) {
                         delay(delay.seconds)
                     }
                 }
                 logger.info { "Scaling $name from ${it.currentReplicas ?: "unknown"} replicas=${it.desiredReplicas}" }
-                it.scale(
-                    it.obj.metadata.name,
-                    it.obj.metadata.namespace,
-                    V1Patch("[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": ${it.desiredReplicas}}]"),
-                    if (dryRun) "All" else null
-                )
+                when (val either = it.thing) {
+                    is Either.Left<*, V1Deployment, *> -> {
+                        AppsV1Api().patchNamespacedDeploymentScale(
+                            either.left.metadata?.name,
+                            either.left.metadata?.namespace,
+                            V1Patch("[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": ${it.desiredReplicas}}]"),
+                            if (dryRun) "All" else null,
+                        )
+                    }
+
+                    is Either.Right<*, *, V1StatefulSet> -> {
+                        AppsV1Api().patchNamespacedStatefulSetScale(
+                            either.right.metadata?.name,
+                            either.right.metadata?.namespace,
+                            V1Patch("[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": ${it.desiredReplicas}}]"),
+                            if (dryRun) "All" else null,
+                        )
+                    }
+                }
                 yield()
             } catch (e: ApiException) {
                 logger.error(e.responseBody)
