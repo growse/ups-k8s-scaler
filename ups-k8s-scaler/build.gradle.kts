@@ -18,7 +18,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
     implementation("org.slf4j:slf4j-simple:2.0.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("com.github.ajalt.clikt:clikt:3.5.1")
+    implementation("com.github.ajalt.clikt:clikt:3.5.2")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
