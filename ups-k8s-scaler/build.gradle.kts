@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.8.20"
     application
     id("org.graalvm.buildtools.native") version "0.9.20"
 }
