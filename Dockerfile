@@ -1,6 +1,6 @@
 FROM growse/musl-toolchains:x86_64-linux_10.2.1-zlib_1.2.12 as musltools
 
-FROM ghcr.io/graalvm/native-image:ol8-java17-22.1.0 as gradle
+FROM ghcr.io/graalvm/native-image:ol9-java17-22.3.2 as gradle
 
 RUN microdnf install findutils
 
