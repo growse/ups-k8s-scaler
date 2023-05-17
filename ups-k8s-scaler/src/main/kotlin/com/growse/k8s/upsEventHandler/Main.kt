@@ -14,6 +14,7 @@ import io.kubernetes.client.util.Config
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
+import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger {}
 
@@ -57,8 +58,12 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
                 if (dryRun) {
                     logger.warn { "Dry run mode enabled" }
                 }
-
-                Configuration.setDefaultApiClient(Config.defaultClient())
+                try {
+                    Configuration.setDefaultApiClient(Config.defaultClient())
+                } catch (e: Exception) {
+                    logger.error(e) { "Unable to init kubeconfig" }
+                    exitProcess(1)
+                }
                 if (scaleDownImmediately) {
                     scaleK8sResources(ScaleDirection.DOWN, dryRun)
                 } else if (scaleUpImmediately) {
