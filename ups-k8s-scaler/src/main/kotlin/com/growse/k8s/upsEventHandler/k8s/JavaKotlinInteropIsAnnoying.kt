@@ -3,6 +3,7 @@
 package com.growse.k8s.upsEventHandler.k8s
 
 import io.kubernetes.client.custom.V1Patch
+import io.kubernetes.client.openapi.ApiException
 import io.kubernetes.client.openapi.apis.AppsV1Api
 import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.apis.StorageV1Api
@@ -19,18 +20,25 @@ fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
-): V1PersistentVolumeClaimList = this.listPersistentVolumeClaimForAllNamespaces(
-    allowWatchBookmarks,
-    _continue,
-    fieldSelector,
-    labelSelector,
-    limit,
-    pretty,
-    resourceVersion,
-    resourceVersionMatch,
-    timeoutSeconds,
-    watch,
-)
+): Result<V1PersistentVolumeClaimList> =
+    try {
+        Result.success(
+            this.listPersistentVolumeClaimForAllNamespaces(
+                allowWatchBookmarks,
+                _continue,
+                fieldSelector,
+                labelSelector,
+                limit,
+                pretty,
+                resourceVersion,
+                resourceVersionMatch,
+                timeoutSeconds,
+                watch,
+            ),
+        )
+    } catch (e: ApiException) {
+        Result.failure(e)
+    }
 
 fun StorageV1Api.listStorageClass(
     allowWatchBookmarks: Boolean? = null,
@@ -43,18 +51,25 @@ fun StorageV1Api.listStorageClass(
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
-): V1StorageClassList = this.listStorageClass(
-    pretty,
-    allowWatchBookmarks,
-    _continue,
-    fieldSelector,
-    labelSelector,
-    limit,
-    resourceVersion,
-    resourceVersionMatch,
-    timeoutSeconds,
-    watch,
-)
+): Result<V1StorageClassList> =
+    try {
+        Result.success(
+            this.listStorageClass(
+                pretty,
+                allowWatchBookmarks,
+                _continue,
+                fieldSelector,
+                labelSelector,
+                limit,
+                resourceVersion,
+                resourceVersionMatch,
+                timeoutSeconds,
+                watch,
+            ),
+        )
+    } catch (e: ApiException) {
+        Result.failure(e)
+    }
 
 fun AppsV1Api.listStatefulSetForAllNamespaces(
     allowWatchBookmarks: Boolean? = null,
@@ -67,18 +82,24 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
-): V1StatefulSetList = this.listStatefulSetForAllNamespaces(
-    allowWatchBookmarks,
-    _continue,
-    fieldSelector,
-    labelSelector,
-    limit,
-    pretty,
-    resourceVersion,
-    resourceVersionMatch,
-    timeoutSeconds,
-    watch,
-)
+): Result<V1StatefulSetList> = try {
+    Result.success(
+        this.listStatefulSetForAllNamespaces(
+            allowWatchBookmarks,
+            _continue,
+            fieldSelector,
+            labelSelector,
+            limit,
+            pretty,
+            resourceVersion,
+            resourceVersionMatch,
+            timeoutSeconds,
+            watch,
+        ),
+    )
+} catch (e: ApiException) {
+    Result.failure(e)
+}
 
 fun AppsV1Api.listDeploymentForAllNamespaces(
     allowWatchBookmarks: Boolean? = null,
@@ -91,47 +112,65 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     resourceVersionMatch: String? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
-): V1DeploymentList = this.listDeploymentForAllNamespaces(
-    allowWatchBookmarks,
-    _continue,
-    fieldSelector,
-    labelSelector,
-    limit,
-    pretty,
-    resourceVersion,
-    resourceVersionMatch,
-    timeoutSeconds,
-    watch,
-)
+): Result<V1DeploymentList> = try {
+    Result.success(
+        this.listDeploymentForAllNamespaces(
+            allowWatchBookmarks,
+            _continue,
+            fieldSelector,
+            labelSelector,
+            limit,
+            pretty,
+            resourceVersion,
+            resourceVersionMatch,
+            timeoutSeconds,
+            watch,
+        ),
+    )
+} catch (e: ApiException) {
+    Result.failure(e)
+}
 
 fun AppsV1Api.patchNamespacedDeploymentScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
     dryRun: String? = null,
-): V1Scale = this.patchNamespacedDeploymentScale(
-    name,
-    namespace,
-    body,
-    null,
-    dryRun,
-    null,
-    null,
-    null,
-)
+): Result<V1Scale> = try {
+    Result.success(
+        this.patchNamespacedDeploymentScale(
+            name,
+            namespace,
+            body,
+            null,
+            dryRun,
+            null,
+            null,
+            null,
+        ),
+    )
+} catch (e: ApiException) {
+    Result.failure(e)
+}
 
 fun AppsV1Api.patchNamespacedStatefulSetScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
     dryRun: String? = null,
-): V1Scale = this.patchNamespacedStatefulSetScale(
-    name,
-    namespace,
-    body,
-    null,
-    dryRun,
-    null,
-    null,
-    null,
-)
+): Result<V1Scale> = try {
+    Result.success(
+        this.patchNamespacedStatefulSetScale(
+            name,
+            namespace,
+            body,
+            null,
+            dryRun,
+            null,
+            null,
+            null,
+        ),
+    )
+} catch (e: ApiException) {
+    Result.failure(e)
+}

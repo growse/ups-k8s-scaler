@@ -30,6 +30,10 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     // names of storage classes that are maybe about to go away
     val storageClassNames = StorageV1Api()
         .listStorageClass(labelSelector = storageClassLabelSelector)
+        .getOrElse {
+            logger.error("Unable to list StorageClassNames: ${it.message}")
+            return
+        }
         .items
         .mapNotNull { storageClass -> storageClass.metadata?.name }
 
@@ -38,6 +42,10 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     // all persistent volumumes using those storage classes
     val persistentVolumesWithStorageClassNames = CoreV1Api()
         .listPersistentVolumeClaimForAllNamespaces()
+        .getOrElse {
+            logger.error("Unable to list PersistentVolumeClaims: ${it.message}")
+            return
+        }
         .items
         .filter { storageClassNames.contains(it.spec?.storageClassName) }
         .mapNotNull { it.metadata?.name }
@@ -47,6 +55,10 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     // all statefulsets with volume claims using those storage classes
     val statefulSetsWithVolumesUsingStorageClasses = AppsV1Api()
         .listStatefulSetForAllNamespaces()
+        .getOrElse {
+            logger.error("Unable to list StatefulSets: ${it.message}")
+            return
+        }
         .items
         .filter {
             it.spec?.volumeClaimTemplates?.any { v1PersistentVolumeClaim ->
@@ -60,6 +72,10 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     // all deployments using volumes that use those storage classes
     val deploymentsWithVolumesUsingStorageClasses = AppsV1Api()
         .listDeploymentForAllNamespaces()
+        .getOrElse {
+            logger.error("Unable to list Deployments: ${it.message}")
+            return
+        }
         .items
         .filter { deployment ->
             deployment.metadata?.labels?.containsKey(orderLabelKey) ?: false ||
