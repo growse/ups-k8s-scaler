@@ -59,7 +59,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1AWSElasticBlockStoreVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Affinity",
@@ -69,17 +69,17 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1AzureDiskVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1AzureFileVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1CSIVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Capabilities",
@@ -89,17 +89,17 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1CephFSVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1CinderVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ConfigMapEnvSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ConfigMapKeySelector",
@@ -109,7 +109,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1ConfigMapProjection",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ConfigMapVolumeSource",
@@ -159,17 +159,17 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1DownwardAPIProjection",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1DownwardAPIVolumeFile",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1DownwardAPIVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1EmptyDirVolumeSource",
@@ -194,12 +194,12 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1EphemeralContainer",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1EphemeralVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ExecAction",
@@ -209,37 +209,37 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1FCVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1FlexVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1FlockerVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1GCEPersistentDiskVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1GRPCAction",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1GitRepoVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1GlusterfsVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1HTTPGetAction",
@@ -249,12 +249,12 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1HTTPHeader",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1HostAlias",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1HostPathVolumeSource",
@@ -264,7 +264,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1ISCSIVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1KeyToPath",
@@ -354,7 +354,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1PersistentVolumeClaimCondition",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PersistentVolumeClaimList",
@@ -374,7 +374,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1PersistentVolumeClaimTemplate",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PersistentVolumeClaimVolumeSource",
@@ -384,12 +384,12 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1PhotonPersistentDiskVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PodAffinity",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PodAffinityTerm",
@@ -414,12 +414,12 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1PodOS",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PodReadinessGate",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PodSecurityContext",
@@ -439,7 +439,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1PortworxVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1PreferredSchedulingTerm",
@@ -454,27 +454,22 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1ProjectedVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"io.kubernetes.client.openapi.models.V1ProjectedVolumeSource",
-  "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1QuobyteVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1RBDVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ResourceFieldSelector",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ResourceRequirements",
@@ -494,7 +489,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1SELinuxOptions",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Scale",
@@ -504,7 +499,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1ScaleIOVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ScaleSpec",
@@ -534,7 +529,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1SecretProjection",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1SecretVolumeSource",
@@ -549,7 +544,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1ServiceAccountTokenProjection",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1StatefulSet",
@@ -559,7 +554,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1StatefulSetCondition",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1StatefulSetList",
@@ -569,7 +564,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1StatefulSetPersistentVolumeClaimRetentionPolicy",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1StatefulSetSpec",
@@ -599,17 +594,17 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1StorageOSVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Sysctl",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1TCPSocketAction",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Toleration",
@@ -619,22 +614,22 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1TopologySelectorLabelRequirement",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1TopologySelectorTerm",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1TopologySpreadConstraint",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1TypedLocalObjectReference",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Volume",
@@ -644,7 +639,7 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1VolumeDevice",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1VolumeMount",
@@ -654,12 +649,12 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1VolumeProjection",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1VsphereVirtualDiskVolumeSource",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1WeightedPodAffinityTerm",
@@ -669,10 +664,24 @@
 {
   "name":"io.kubernetes.client.openapi.models.V1WindowsSecurityContextOptions",
   "allDeclaredFields":true,
-  "queriedMethods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Class",
+  "methods":[
+    {"name":"getRecordComponents","parameterTypes":[] }, 
+    {"name":"isRecord","parameterTypes":[] }
+  ]
 },
 {
   "name":"java.lang.String"
+},
+{
+  "name":"java.lang.reflect.RecordComponent",
+  "methods":[
+    {"name":"getName","parameterTypes":[] }, 
+    {"name":"getType","parameterTypes":[] }
+  ]
 },
 {
   "name":"java.security.AlgorithmParametersSpi"
@@ -719,8 +728,7 @@
   "methods":[{"name":"<init>","parameterTypes":["sun.security.x509.X500Name"] }]
 },
 {
-  "name":"kotlin.internal.jdk8.JDK8PlatformImplementations",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"kotlin.reflect.jvm.internal.ReflectionFactoryImpl"
 },
 {
   "name":"org.bouncycastle.jcajce.provider.asymmetric.COMPOSITE$Mappings",
@@ -1088,10 +1096,6 @@
 },
 {
   "name":"sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"sun.security.provider.DSA$SHA1withDSA",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
