@@ -31,7 +31,7 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     val storageClassNames = StorageV1Api()
         .listStorageClass(labelSelector = storageClassLabelSelector)
         .getOrElse {
-            logger.error("Unable to list StorageClassNames: ${it.message}")
+            logger.error(it) { "Unable to list StorageClassNames" }
             return
         }
         .items
@@ -43,7 +43,7 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     val persistentVolumesWithStorageClassNames = CoreV1Api()
         .listPersistentVolumeClaimForAllNamespaces()
         .getOrElse {
-            logger.error("Unable to list PersistentVolumeClaims: ${it.message}")
+            logger.error(it) { "Unable to list PersistentVolumeClaims" }
             return
         }
         .items
@@ -56,7 +56,7 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     val statefulSetsWithVolumesUsingStorageClasses = AppsV1Api()
         .listStatefulSetForAllNamespaces()
         .getOrElse {
-            logger.error("Unable to list StatefulSets: ${it.message}")
+            logger.error(it) { "Unable to list StatefulSets" }
             return
         }
         .items
@@ -73,7 +73,7 @@ suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = 
     val deploymentsWithVolumesUsingStorageClasses = AppsV1Api()
         .listDeploymentForAllNamespaces()
         .getOrElse {
-            logger.error("Unable to list Deployments: ${it.message}")
+            logger.error(it) { "Unable to list Deployments" }
             return
         }
         .items
