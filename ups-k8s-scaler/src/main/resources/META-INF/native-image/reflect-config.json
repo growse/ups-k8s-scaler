@@ -731,6 +731,13 @@
   "name":"kotlin.reflect.jvm.internal.ReflectionFactoryImpl"
 },
 {
+  "name": "kotlin.internal.jdk8.JDK8PlatformImplementations",
+  "allPublicMethods": true,
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allDeclaredConstructors":true
+},
+{
   "name":"org.bouncycastle.jcajce.provider.asymmetric.COMPOSITE$Mappings",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
