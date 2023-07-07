@@ -19,7 +19,7 @@ dependencies {
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.18")
     implementation("org.slf4j:slf4j-simple:2.0.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-    implementation("com.github.ajalt.clikt:clikt:3.5.4")
+    implementation("com.github.ajalt.clikt:clikt:4.0.0")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
