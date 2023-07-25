@@ -22,7 +22,7 @@ dependencies {
     implementation("com.github.ajalt.clikt:clikt:3.5.4")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 }
 
 tasks.test {
