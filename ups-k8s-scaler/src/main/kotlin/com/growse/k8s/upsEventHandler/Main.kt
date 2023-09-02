@@ -71,10 +71,12 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
                 } else if (scaleUpImmediately) {
                     scaleK8sResources(ScaleDirection.UP, dryRun)
                 } else {
-                    checkK8sConnectivity().onFailure {
-                        logger.error(it) { "Unable to connect to k8s" }
-                        throw ProgramResult(1)
-                    }
+                    checkK8sConnectivity()
+                        .onFailure {
+                            logger.error(it) { "Unable to connect to k8s" }
+                            throw ProgramResult(1)
+                        }
+                        .onSuccess { logger.info { "Successfully connected to k8s" } }
                     SocketTransport(upsdHostname, upsdPort.toUShort()).use {
                         Client(
                             it,
