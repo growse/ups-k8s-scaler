@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/graalvm/native-image:muslib-ol9-java17-22.3.2 as gradle
+FROM ghcr.io/graalvm/native-image:muslib-ol9-java17-22.3.3 as gradle
 
 RUN microdnf -y install findutils unzip
 
