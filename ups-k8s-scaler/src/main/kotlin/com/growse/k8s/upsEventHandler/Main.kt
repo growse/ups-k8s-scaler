@@ -1,11 +1,13 @@
 package com.growse.k8s.upsEventHandler
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.ProgramResult
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import com.growse.k8s.upsEventHandler.k8s.ScaleDirection
+import com.growse.k8s.upsEventHandler.k8s.checkK8sConnectivity
 import com.growse.k8s.upsEventHandler.k8s.scaleK8sResources
 import com.growse.k8s.upsEventHandler.upsClient.Client
 import com.growse.k8s.upsEventHandler.upsClient.SocketTransport
@@ -69,6 +71,10 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
                 } else if (scaleUpImmediately) {
                     scaleK8sResources(ScaleDirection.UP, dryRun)
                 } else {
+                    checkK8sConnectivity().onFailure {
+                        logger.error(it) { "Unable to connect to k8s" }
+                        throw ProgramResult(1)
+                    }
                     SocketTransport(upsdHostname, upsdPort.toUShort()).use {
                         Client(
                             it,

@@ -26,6 +26,10 @@ enum class ScaleDirection { UP, DOWN }
 
 private val logger = KotlinLogging.logger {}
 
+fun checkK8sConnectivity(): Result<Unit> =
+    StorageV1Api()
+        .listStorageClass(labelSelector = storageClassLabelSelector).map {}
+
 suspend fun scaleK8sResources(scaleDirection: ScaleDirection, dryRun: Boolean = false) {
     // names of storage classes that are maybe about to go away
     val storageClassNames = StorageV1Api()
