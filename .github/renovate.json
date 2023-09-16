@@ -1,28 +1,12 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base",
     ":disableRateLimiting",
     ":rebaseStalePrs",
-    ":disableDependencyDashboard"
-  ],
-  "assignees": ["growse"],
-  "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true
-  },
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    }
-  ],
-  "regexManagers": [
-    {
-      "fileMatch": ["^Dockerfile$"],
-      "matchStrings": [
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=(?<currentValue>.*)\\s"
-      ]
-    }
+    ":disableDependencyDashboard",
+    "github>growse/renovate-template",
+    "github>growse/renovate-template:automerge-minor-and-patch",
+    "github>growse/renovate-template:automerge-github-actions"
   ]
 }
