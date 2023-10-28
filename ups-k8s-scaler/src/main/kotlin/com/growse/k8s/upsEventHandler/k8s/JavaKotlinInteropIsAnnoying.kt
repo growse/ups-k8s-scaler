@@ -18,6 +18,7 @@ fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
     pretty: String? = null,
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
+    sendInitialEvents: Boolean? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
 ): Result<V1PersistentVolumeClaimList> =
@@ -32,6 +33,7 @@ fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
                 pretty,
                 resourceVersion,
                 resourceVersionMatch,
+                sendInitialEvents,
                 timeoutSeconds,
                 watch,
             ),
@@ -49,6 +51,7 @@ fun StorageV1Api.listStorageClass(
     pretty: String? = null,
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
+    sendInitialEvents: Boolean? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
 ): Result<V1StorageClassList> =
@@ -63,6 +66,7 @@ fun StorageV1Api.listStorageClass(
                 limit,
                 resourceVersion,
                 resourceVersionMatch,
+                sendInitialEvents,
                 timeoutSeconds,
                 watch,
             ),
@@ -80,6 +84,7 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
     pretty: String? = null,
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
+    sendInitialEvents: Boolean? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
 ): Result<V1StatefulSetList> = try {
@@ -93,6 +98,7 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
             pretty,
             resourceVersion,
             resourceVersionMatch,
+            sendInitialEvents,
             timeoutSeconds,
             watch,
         ),
@@ -110,6 +116,7 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     pretty: String? = null,
     resourceVersion: String? = null,
     resourceVersionMatch: String? = null,
+    sendInitialEvents: Boolean? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
 ): Result<V1DeploymentList> = try {
@@ -123,6 +130,7 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
             pretty,
             resourceVersion,
             resourceVersionMatch,
+            sendInitialEvents,
             timeoutSeconds,
             watch,
         ),
