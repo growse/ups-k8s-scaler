@@ -3,8 +3,6 @@ name: Build & Publish
 "on":
   pull_request:
   push:
-    tags:
-      - v[0-9]+\.[0-9]+\.[0-9]+-[0-9]+
     branches:
       - main
 
@@ -37,6 +35,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,enable={{is_default_branch}},value={{date 'YYYY.MM.DD.hh.mm.ss' tz='UTC'}}
       - name: Build Docker image
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5
         with:
