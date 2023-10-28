@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    alias(libs.plugins.kotlin)
     application
-    id("org.graalvm.buildtools.native") version "0.9.28"
+    alias(libs.plugins.graalvm)
 }
 
 group = "com.growse.k8s.upsEventHandler"
@@ -14,15 +14,15 @@ repositories {
 }
 
 dependencies {
-    implementation("io.kubernetes:client-java:19.0.0")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.18")
-    implementation("org.slf4j:slf4j-simple:2.0.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("com.github.ajalt.clikt:clikt:3.5.4")
-    testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    implementation(libs.k8s.client)
+    implementation(libs.kotlin.logging)
+    implementation(libs.kotlin.result)
+    implementation(libs.slf4j)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.clikt)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 tasks.test {

@@ -1,0 +1,25 @@
+[versions]
+clikt = "3.5.4"
+graalvm = "0.9.28"
+junit = "5.10.0"
+k8s-client = "19.0.0"
+kotlin = "1.9.10"
+kotlin-logging = "3.0.4"
+kotlin-result = "1.1.18"
+kotlinx-coroutines = "1.7.3"
+slf4j = "2.0.9"
+
+[libraries]
+clikt = { group = "com.github.ajalt.clikt", name = "clikt", version.ref = "clikt" }
+junit = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
+k8s-client = { group = "io.kubernetes", name = "client-java", version.ref = "k8s-client" }
+kotlin-logging = { group = "io.github.microutils", name = "kotlin-logging-jvm", version.ref = "kotlin-logging" }
+kotlin-result = { group = "com.michael-bull.kotlin-result", name = "kotlin-result", version.ref = "kotlin-result" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+slf4j = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
