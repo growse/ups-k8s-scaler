@@ -1,6 +1,12 @@
 package com.growse.k8s.upsEventHandler.upsClient
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -42,7 +48,7 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
                     }
                 }
             }
-            ).run(this::parseResponseLines)
+        ).run(this::parseResponseLines)
     }
 
     private val errorPrefix = "ERR "
@@ -71,8 +77,10 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
         ) {
             responseLines.first().split(" ", limit = 4)
                 .let { UPSResponse.UPSVariable(it[2], it[3].removeSurrounding("\"")) }
-        } else if (responseLines.first().startsWith(beginPrefix) && responseLines.last()
-                .startsWith(endPrefix) && responseLines.first().substring(beginPrefix.length) == responseLines.last()
+        } else if (responseLines.first().startsWith(beginPrefix) &&
+            responseLines.last()
+                .startsWith(endPrefix) && responseLines.first().substring(beginPrefix.length) ==
+            responseLines.last()
                 .substring(endPrefix.length)
         ) {
             when (responseLines.first().substring(beginPrefix.length)) {
@@ -118,9 +126,10 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
                                         cancelAndJoin()
                                     }
                                 }
-                                job = CoroutineScope(Dispatchers.Default).launch {
-                                    callbackMap[upsState]?.invoke()
-                                }
+                                job =
+                                    CoroutineScope(Dispatchers.Default).launch {
+                                        callbackMap[upsState]?.invoke()
+                                    }
                             }
                         }
 
@@ -166,6 +175,7 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
     }
 
     private fun listUps() = sendCommand("LIST UPS")
+
     private fun getUPSStatus(name: String) = sendCommand("GET VAR ${name.filter { !it.isWhitespace() }} ups.status")
 
     /**
@@ -173,10 +183,15 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
      */
     sealed class UPSResponse {
         data class UPSList(val upsList: List<UPS>) : UPSResponse()
+
         data class Error(val name: String) : UPSResponse()
+
         data class UPSVariable(val name: String, val value: String) : UPSResponse()
+
         object Timeout : UPSResponse()
+
         object NoResponse : UPSResponse()
+
         object UnKnownResponse : UPSResponse()
     }
 
@@ -194,7 +209,10 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
      * @property statusCode the code used by NUT to represent the status
      */
     enum class UPSStates(val statusCode: String) {
-        OnLine("OL"), OnBattery("OB"), LowBattery("LB");
+        OnLine("OL"),
+        OnBattery("OB"),
+        LowBattery("LB"),
+        ;
 
         companion object {
             /**
@@ -208,7 +226,9 @@ class Client(private val transport: Transport, private val callbackMap: Map<UPSS
     }
 
     class NoUPSFoundException : Throwable()
+
     class TransportNotConnectedException : Throwable()
+
     class UnexpectedResultException(val upsResponse: UPSResponse) : Throwable() {
         override val message: String
             get() = "Unexpected response from UPSD $upsResponse"

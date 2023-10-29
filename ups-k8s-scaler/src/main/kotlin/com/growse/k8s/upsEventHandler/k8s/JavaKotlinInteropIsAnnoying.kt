@@ -7,7 +7,11 @@ import io.kubernetes.client.openapi.ApiException
 import io.kubernetes.client.openapi.apis.AppsV1Api
 import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.apis.StorageV1Api
-import io.kubernetes.client.openapi.models.*
+import io.kubernetes.client.openapi.models.V1DeploymentList
+import io.kubernetes.client.openapi.models.V1PersistentVolumeClaimList
+import io.kubernetes.client.openapi.models.V1Scale
+import io.kubernetes.client.openapi.models.V1StatefulSetList
+import io.kubernetes.client.openapi.models.V1StorageClassList
 
 fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
     allowWatchBookmarks: Boolean? = null,
@@ -87,25 +91,26 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
     sendInitialEvents: Boolean? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
-): Result<V1StatefulSetList> = try {
-    Result.success(
-        this.listStatefulSetForAllNamespaces(
-            allowWatchBookmarks,
-            _continue,
-            fieldSelector,
-            labelSelector,
-            limit,
-            pretty,
-            resourceVersion,
-            resourceVersionMatch,
-            sendInitialEvents,
-            timeoutSeconds,
-            watch,
-        ),
-    )
-} catch (e: ApiException) {
-    Result.failure(e)
-}
+): Result<V1StatefulSetList> =
+    try {
+        Result.success(
+            this.listStatefulSetForAllNamespaces(
+                allowWatchBookmarks,
+                _continue,
+                fieldSelector,
+                labelSelector,
+                limit,
+                pretty,
+                resourceVersion,
+                resourceVersionMatch,
+                sendInitialEvents,
+                timeoutSeconds,
+                watch,
+            ),
+        )
+    } catch (e: ApiException) {
+        Result.failure(e)
+    }
 
 fun AppsV1Api.listDeploymentForAllNamespaces(
     allowWatchBookmarks: Boolean? = null,
@@ -119,66 +124,69 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     sendInitialEvents: Boolean? = null,
     timeoutSeconds: Int? = null,
     watch: Boolean? = null,
-): Result<V1DeploymentList> = try {
-    Result.success(
-        this.listDeploymentForAllNamespaces(
-            allowWatchBookmarks,
-            _continue,
-            fieldSelector,
-            labelSelector,
-            limit,
-            pretty,
-            resourceVersion,
-            resourceVersionMatch,
-            sendInitialEvents,
-            timeoutSeconds,
-            watch,
-        ),
-    )
-} catch (e: ApiException) {
-    Result.failure(e)
-}
+): Result<V1DeploymentList> =
+    try {
+        Result.success(
+            this.listDeploymentForAllNamespaces(
+                allowWatchBookmarks,
+                _continue,
+                fieldSelector,
+                labelSelector,
+                limit,
+                pretty,
+                resourceVersion,
+                resourceVersionMatch,
+                sendInitialEvents,
+                timeoutSeconds,
+                watch,
+            ),
+        )
+    } catch (e: ApiException) {
+        Result.failure(e)
+    }
 
 fun AppsV1Api.patchNamespacedDeploymentScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
     dryRun: String? = null,
-): Result<V1Scale> = try {
-    Result.success(
-        this.patchNamespacedDeploymentScale(
-            name,
-            namespace,
-            body,
-            null,
-            dryRun,
-            null,
-            null,
-            null,
-        ),
-    )
-} catch (e: ApiException) {
-    Result.failure(e)
-}
+): Result<V1Scale> =
+    try {
+        Result.success(
+            this.patchNamespacedDeploymentScale(
+                name,
+                namespace,
+                body,
+                null,
+                dryRun,
+                null,
+                null,
+                null,
+            ),
+        )
+    } catch (e: ApiException) {
+        Result.failure(e)
+    }
 
 fun AppsV1Api.patchNamespacedStatefulSetScale(
     name: String? = null,
     namespace: String? = null,
     body: V1Patch? = null,
     dryRun: String? = null,
-): Result<V1Scale> = try {
-    Result.success(
-        this.patchNamespacedStatefulSetScale(
-            name,
-            namespace,
-            body,
-            null,
-            dryRun,
-            null,
-            null,
-            null,
-        ),
-    )
-} catch (e: ApiException) {
-    Result.failure(e)
-}
+): Result<V1Scale> =
+    try {
+        Result.success(
+            this.patchNamespacedStatefulSetScale(
+                name,
+                namespace,
+                body,
+                null,
+                dryRun,
+                null,
+                null,
+                null,
+            ),
+        )
+    } catch (e: ApiException) {
+        Result.failure(e)
+    }

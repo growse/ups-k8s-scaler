@@ -6,3 +6,17 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
+- repo: local
+  hooks:
+      - id: unit-test
+        name: Run unit tests
+        description: Runs unit-tests
+        entry: ./project/gradlew -p ups-k8s-scaler check
+        pass_filenames: false
+        language: system
+      - id: ktlint
+        name: ktlint
+        description: Ktlints
+        entry: ./project/gradlew -p ups-k8s-scaler ktlintCheck
+        pass_filenames: false
+        language: system

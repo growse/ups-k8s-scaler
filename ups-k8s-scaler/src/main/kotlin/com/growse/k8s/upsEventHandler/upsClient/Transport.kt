@@ -5,8 +5,11 @@ package com.growse.k8s.upsEventHandler.upsClient
  */
 interface Transport : java.io.Closeable {
     fun writeLine(line: String)
+
     fun readLine(): String
+
     val isConnected: Boolean
+
     fun connect()
 
     class TimeoutException : Exception()

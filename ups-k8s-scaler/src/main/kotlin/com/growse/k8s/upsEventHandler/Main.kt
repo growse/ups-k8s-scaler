@@ -88,7 +88,7 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
                                     } else {
                                         Client.UPSStates.LowBattery
                                     }
-                                    ) to {
+                                ) to {
                                     scaleK8sResources(ScaleDirection.DOWN, dryRun)
                                 },
                             ),

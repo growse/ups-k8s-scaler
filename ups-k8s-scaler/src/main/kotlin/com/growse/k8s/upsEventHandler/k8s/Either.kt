@@ -10,6 +10,7 @@ package com.growse.k8s.upsEventHandler.k8s
  */
 sealed class Either<C, A : C, B : C> {
     class Left<C, A : C, B : C>(val left: A) : Either<C, A, B>()
+
     class Right<C, A : C, B : C>(val right: B) : Either<C, A, B>()
 
     /**
@@ -17,8 +18,9 @@ sealed class Either<C, A : C, B : C> {
      *
      * @return an instance of type [C]
      */
-    fun whichever() = when (this) {
-        is Left -> this.left
-        is Right -> this.right
-    }
+    fun whichever() =
+        when (this) {
+            is Left -> this.left
+            is Right -> this.right
+        }
 }

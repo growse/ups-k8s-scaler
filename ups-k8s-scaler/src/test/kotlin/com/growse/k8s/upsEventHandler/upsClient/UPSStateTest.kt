@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class UPSStateTest {
-
     @Test
     fun `UPS State can parse valid state`() {
         val input = "OL"
