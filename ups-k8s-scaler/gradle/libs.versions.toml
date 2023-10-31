@@ -1,5 +1,5 @@
 [versions]
-clikt = "3.5.4"
+clikt = "4.2.1"
 graalvm = "0.9.28"
 junit = "5.10.0"
 k8s-client = "19.0.0"
