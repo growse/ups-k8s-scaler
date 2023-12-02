@@ -41,7 +41,6 @@ internal class UPSClientTest {
         }
 
     @Test
-    @Suppress("ktlint:standard:max-line-length")
     fun `given a LIST UPS command, when the response is a list but with no valid UPS entries in it, then a NoUpsFoundException is returned`() =
         runTest {
             val transport =
@@ -163,7 +162,6 @@ internal class UPSClientTest {
         }
 
     @Test
-    @Suppress("ktlint:standard:max-line-length")
     fun `given a UPS that's online, when the monitor is started and the status returns trailing characters, then the online callback is called`() =
         runTest {
             val transport =

@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin)
     application
     alias(libs.plugins.graalvm)
-    alias(libs.plugins.ktlint)
+    alias(libs.plugins.ktfmt)
 }
 
 group = "com.growse.k8s.upsEventHandler"
@@ -37,11 +37,4 @@ tasks.withType<KotlinCompile> {
 application {
     mainClass.set("com.growse.k8s.upsEventHandler.MainKt")
     applicationDefaultJvmArgs = listOf("-agentlib:native-image-agent=config-output-dir=/tmp/libnativeoutput")
-}
-
-ktlint {
-    version.set("1.0.1")
-    verbose.set(true)
-    outputToConsole.set(true)
-    coloredOutput.set(true)
 }

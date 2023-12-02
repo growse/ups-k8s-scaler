@@ -7,7 +7,7 @@ kotlin = "1.9.21"
 kotlin-logging = "3.0.5"
 kotlin-result = "1.1.18"
 kotlinx-coroutines = "1.7.3"
-ktlint = "11.6.1"
+ktfmt = "0.15.0"
 slf4j = "2.0.9"
 
 [libraries]
@@ -24,4 +24,4 @@ slf4j = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
 [plugins]
 graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref= "ktlint"}
+ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }
