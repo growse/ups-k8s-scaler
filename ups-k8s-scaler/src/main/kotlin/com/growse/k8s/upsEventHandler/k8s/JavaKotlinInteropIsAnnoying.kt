@@ -27,23 +27,23 @@ fun CoreV1Api.listPersistentVolumeClaimForAllNamespaces(
     watch: Boolean? = null,
 ): Result<V1PersistentVolumeClaimList> =
     try {
-        Result.success(
-            this.listPersistentVolumeClaimForAllNamespaces(
-                allowWatchBookmarks,
-                _continue,
-                fieldSelector,
-                labelSelector,
-                limit,
-                pretty,
-                resourceVersion,
-                resourceVersionMatch,
-                sendInitialEvents,
-                timeoutSeconds,
-                watch,
-            ),
-        )
+      Result.success(
+          this.listPersistentVolumeClaimForAllNamespaces(
+              allowWatchBookmarks,
+              _continue,
+              fieldSelector,
+              labelSelector,
+              limit,
+              pretty,
+              resourceVersion,
+              resourceVersionMatch,
+              sendInitialEvents,
+              timeoutSeconds,
+              watch,
+          ),
+      )
     } catch (e: ApiException) {
-        Result.failure(e)
+      Result.failure(e)
     }
 
 fun StorageV1Api.listStorageClass(
@@ -60,23 +60,23 @@ fun StorageV1Api.listStorageClass(
     watch: Boolean? = null,
 ): Result<V1StorageClassList> =
     try {
-        Result.success(
-            this.listStorageClass(
-                pretty,
-                allowWatchBookmarks,
-                _continue,
-                fieldSelector,
-                labelSelector,
-                limit,
-                resourceVersion,
-                resourceVersionMatch,
-                sendInitialEvents,
-                timeoutSeconds,
-                watch,
-            ),
-        )
+      Result.success(
+          this.listStorageClass(
+              pretty,
+              allowWatchBookmarks,
+              _continue,
+              fieldSelector,
+              labelSelector,
+              limit,
+              resourceVersion,
+              resourceVersionMatch,
+              sendInitialEvents,
+              timeoutSeconds,
+              watch,
+          ),
+      )
     } catch (e: ApiException) {
-        Result.failure(e)
+      Result.failure(e)
     }
 
 fun AppsV1Api.listStatefulSetForAllNamespaces(
@@ -93,23 +93,23 @@ fun AppsV1Api.listStatefulSetForAllNamespaces(
     watch: Boolean? = null,
 ): Result<V1StatefulSetList> =
     try {
-        Result.success(
-            this.listStatefulSetForAllNamespaces(
-                allowWatchBookmarks,
-                _continue,
-                fieldSelector,
-                labelSelector,
-                limit,
-                pretty,
-                resourceVersion,
-                resourceVersionMatch,
-                sendInitialEvents,
-                timeoutSeconds,
-                watch,
-            ),
-        )
+      Result.success(
+          this.listStatefulSetForAllNamespaces(
+              allowWatchBookmarks,
+              _continue,
+              fieldSelector,
+              labelSelector,
+              limit,
+              pretty,
+              resourceVersion,
+              resourceVersionMatch,
+              sendInitialEvents,
+              timeoutSeconds,
+              watch,
+          ),
+      )
     } catch (e: ApiException) {
-        Result.failure(e)
+      Result.failure(e)
     }
 
 fun AppsV1Api.listDeploymentForAllNamespaces(
@@ -126,23 +126,23 @@ fun AppsV1Api.listDeploymentForAllNamespaces(
     watch: Boolean? = null,
 ): Result<V1DeploymentList> =
     try {
-        Result.success(
-            this.listDeploymentForAllNamespaces(
-                allowWatchBookmarks,
-                _continue,
-                fieldSelector,
-                labelSelector,
-                limit,
-                pretty,
-                resourceVersion,
-                resourceVersionMatch,
-                sendInitialEvents,
-                timeoutSeconds,
-                watch,
-            ),
-        )
+      Result.success(
+          this.listDeploymentForAllNamespaces(
+              allowWatchBookmarks,
+              _continue,
+              fieldSelector,
+              labelSelector,
+              limit,
+              pretty,
+              resourceVersion,
+              resourceVersionMatch,
+              sendInitialEvents,
+              timeoutSeconds,
+              watch,
+          ),
+      )
     } catch (e: ApiException) {
-        Result.failure(e)
+      Result.failure(e)
     }
 
 fun AppsV1Api.patchNamespacedDeploymentScale(
@@ -152,20 +152,20 @@ fun AppsV1Api.patchNamespacedDeploymentScale(
     dryRun: String? = null,
 ): Result<V1Scale> =
     try {
-        Result.success(
-            this.patchNamespacedDeploymentScale(
-                name,
-                namespace,
-                body,
-                null,
-                dryRun,
-                null,
-                null,
-                null,
-            ),
-        )
+      Result.success(
+          this.patchNamespacedDeploymentScale(
+              name,
+              namespace,
+              body,
+              null,
+              dryRun,
+              null,
+              null,
+              null,
+          ),
+      )
     } catch (e: ApiException) {
-        Result.failure(e)
+      Result.failure(e)
     }
 
 fun AppsV1Api.patchNamespacedStatefulSetScale(
@@ -175,18 +175,18 @@ fun AppsV1Api.patchNamespacedStatefulSetScale(
     dryRun: String? = null,
 ): Result<V1Scale> =
     try {
-        Result.success(
-            this.patchNamespacedStatefulSetScale(
-                name,
-                namespace,
-                body,
-                null,
-                dryRun,
-                null,
-                null,
-                null,
-            ),
-        )
+      Result.success(
+          this.patchNamespacedStatefulSetScale(
+              name,
+              namespace,
+              body,
+              null,
+              dryRun,
+              null,
+              null,
+              null,
+          ),
+      )
     } catch (e: ApiException) {
-        Result.failure(e)
+      Result.failure(e)
     }
