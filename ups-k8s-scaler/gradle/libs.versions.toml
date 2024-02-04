@@ -1,7 +1,7 @@
 [versions]
 clikt = "4.2.2"
 graalvm = "0.10.0"
-junit = "5.10.1"
+junit = "5.10.2"
 k8s-client = "19.0.0"
 kotlin = "1.9.22"
 kotlin-logging = "3.0.5"
