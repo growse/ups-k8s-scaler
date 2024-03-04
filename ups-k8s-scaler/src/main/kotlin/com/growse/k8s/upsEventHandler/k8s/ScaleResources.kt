@@ -31,7 +31,7 @@ enum class ScaleDirection {
 private val logger = KotlinLogging.logger {}
 
 fun checkK8sConnectivity(): Result<Unit> =
-    StorageV1Api().listStorageClass(labelSelector = STORAGE_CLASS_LABEL_SELECTOR).map {}
+    StorageV1Api().maybeListStorageClass(labelSelector = STORAGE_CLASS_LABEL_SELECTOR).map {}
 
 suspend fun scaleK8sResources(
     scaleDirection: ScaleDirection,
@@ -40,7 +40,7 @@ suspend fun scaleK8sResources(
   // names of storage classes that are maybe about to go away
   val storageClassNames =
       StorageV1Api()
-          .listStorageClass(labelSelector = STORAGE_CLASS_LABEL_SELECTOR)
+          .maybeListStorageClass(labelSelector = STORAGE_CLASS_LABEL_SELECTOR)
           .getOrElse {
             logger.error(it) { "Unable to list StorageClassNames" }
             return
@@ -50,10 +50,10 @@ suspend fun scaleK8sResources(
 
   yield()
 
-  // all persistent volumumes using those storage classes
+  // all persistent volumes using those storage classes
   val persistentVolumesWithStorageClassNames =
       CoreV1Api()
-          .listPersistentVolumeClaimForAllNamespaces()
+          .maybeListPersistentVolumeClaimForAllNamespaces()
           .getOrElse {
             logger.error(it) { "Unable to list PersistentVolumeClaims" }
             return
@@ -67,7 +67,7 @@ suspend fun scaleK8sResources(
   // all statefulsets with volume claims using those storage classes
   val statefulSetsWithVolumesUsingStorageClasses =
       AppsV1Api()
-          .listStatefulSetForAllNamespaces()
+          .maybeListStatefulSetForAllNamespaces()
           .getOrElse {
             logger.error(it) { "Unable to list StatefulSets" }
             return
@@ -85,7 +85,7 @@ suspend fun scaleK8sResources(
   // all deployments using volumes that use those storage classes
   val deploymentsWithVolumesUsingStorageClasses =
       AppsV1Api()
-          .listDeploymentForAllNamespaces()
+          .maybeListDeploymentForAllNamespaces()
           .getOrElse {
             logger.error(it) { "Unable to list Deployments" }
             return
@@ -164,7 +164,7 @@ suspend fun scaleK8sResources(
             }
             is Either.Right<*, *, V1StatefulSet> -> {
               AppsV1Api()
-                  .patchNamespacedStatefulSetScale(
+                  .maybePatchNamespacedStatefulSetScale(
                       either.right.metadata?.name,
                       either.right.metadata?.namespace,
                       V1Patch(
