@@ -1,6 +1,6 @@
 [versions]
 clikt = "4.4.0"
-graalvm = "0.10.1"
+graalvm = "0.10.2"
 junit = "5.10.2"
 k8s-client = "20.0.1"
 kotlin = "1.9.24"
