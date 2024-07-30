@@ -2,7 +2,7 @@
 clikt = "4.4.0"
 graalvm = "0.10.2"
 junit = "5.10.3"
-k8s-client = "21.0.0"
+k8s-client = "21.0.1"
 kotlin = "2.0.0"
 kotlin-logging = "3.0.5"
 kotlin-result = "2.0.0"
