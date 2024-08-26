@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -26,12 +27,14 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 }
 
-tasks.test {
-    useJUnitPlatform()
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+tasks.test {
+    useJUnitPlatform()
 }
 
 application {
