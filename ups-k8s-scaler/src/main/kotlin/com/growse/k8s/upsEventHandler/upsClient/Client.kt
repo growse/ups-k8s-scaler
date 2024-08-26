@@ -67,7 +67,7 @@ class Client(
    * @return a [UPSResponse] that represents the response back from the UPS
    */
   private fun parseResponseLines(responseLines: List<String>): UPSResponse {
-    logger.debug("Parsing UPS response: $responseLines")
+    logger.trace { "Parsing UPS response: $responseLines" }
     return if (responseLines.isEmpty()) {
       UPSResponse.NoResponse
     } else if (responseLines.size == 1 && responseLines.first().startsWith(errorPrefix)) {
@@ -114,7 +114,7 @@ class Client(
     var job: Job? = null
     while (transport.isConnected) {
       delay(monitorDelay)
-      logger.debug("Checking UPS status")
+      logger.trace("Checking UPS status")
       when (val upsStateValue = getUPSStatus(ups.name)) {
         is UPSResponse.UPSVariable -> {
           when (val upsState = UPSStates.parse(upsStateValue.value)) {

@@ -17,11 +17,10 @@ repositories {
 
 dependencies {
     implementation(libs.k8s.client)
-    implementation(libs.kotlin.logging)
     implementation(libs.kotlin.result)
-    implementation(libs.slf4j)
     implementation(libs.kotlinx.coroutines)
     implementation(libs.clikt)
+    implementation(libs.bundles.logging)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -29,7 +28,7 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+    jvmTarget.set(JvmTarget.JVM_22)
     }
 }
 

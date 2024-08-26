@@ -1,12 +1,13 @@
 package com.growse.k8s.upsEventHandler.k8s
 
 import io.kubernetes.client.common.KubernetesObject
-import io.kubernetes.client.custom.V1Patch
 import io.kubernetes.client.openapi.ApiException
 import io.kubernetes.client.openapi.apis.AppsV1Api
 import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.apis.StorageV1Api
 import io.kubernetes.client.openapi.models.V1Deployment
+import io.kubernetes.client.openapi.models.V1Scale
+import io.kubernetes.client.openapi.models.V1ScaleSpec
 import io.kubernetes.client.openapi.models.V1StatefulSet
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
@@ -38,6 +39,7 @@ suspend fun scaleK8sResources(
     dryRun: Boolean = false,
 ) {
   // names of storage classes that are maybe about to go away
+
   val storageClassNames =
       StorageV1Api()
           .maybeListStorageClass(labelSelector = STORAGE_CLASS_LABEL_SELECTOR)
@@ -64,7 +66,7 @@ suspend fun scaleK8sResources(
 
   yield()
 
-  // all statefulsets with volume claims using those storage classes
+  // all StatefulSets with volume claims using those storage classes
   val statefulSetsWithVolumesUsingStorageClasses =
       AppsV1Api()
           .maybeListStatefulSetForAllNamespaces()
@@ -153,24 +155,29 @@ suspend fun scaleK8sResources(
           }
           when (val either = it.thing) {
             is Either.Left<*, V1Deployment, *> -> {
+
               AppsV1Api()
-                  .patchNamespacedDeploymentScale(
+                  .replaceNamespacedDeploymentScale(
                       either.left.metadata?.name,
                       either.left.metadata?.namespace,
-                      V1Patch(
-                          "[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": ${it.desiredReplicas}}]"),
-                      if (dryRun) "All" else null,
-                  )
+                      V1Scale().apply {
+                        spec = V1ScaleSpec().replicas(it.desiredReplicas)
+                        metadata = either.left.metadata
+                      })
+                  .dryRun(if (dryRun) "All" else null)
+                  .execute()
             }
             is Either.Right<*, *, V1StatefulSet> -> {
               AppsV1Api()
-                  .maybePatchNamespacedStatefulSetScale(
+                  .replaceNamespacedStatefulSetScale(
                       either.right.metadata?.name,
                       either.right.metadata?.namespace,
-                      V1Patch(
-                          "[{\"op\": \"replace\",\"path\":\"/spec/replicas\",\"value\": ${it.desiredReplicas}}]"),
-                      if (dryRun) "All" else null,
-                  )
+                      V1Scale().apply {
+                        spec = V1ScaleSpec().replicas(it.desiredReplicas)
+                        metadata = either.whichever().metadata
+                      })
+                  .dryRun(if (dryRun) "All" else null)
+                  .execute()
             }
           }
           yield()

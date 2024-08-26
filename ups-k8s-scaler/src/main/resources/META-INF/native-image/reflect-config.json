@@ -637,6 +637,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1VolumeResourceRequirements",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1VolumeDevice",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]

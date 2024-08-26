@@ -1,5 +1,6 @@
 package com.growse.k8s.upsEventHandler
 
+import ch.qos.logback.classic.Level
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.ProgramResult
 import com.github.ajalt.clikt.parameters.options.default
@@ -14,9 +15,12 @@ import com.growse.k8s.upsEventHandler.upsClient.SocketTransport
 import io.kubernetes.client.openapi.Configuration
 import io.kubernetes.client.util.Config
 import kotlin.system.exitProcess
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
+import org.slf4j.Logger.ROOT_LOGGER_NAME
+import org.slf4j.LoggerFactory
 
 private val logger = KotlinLogging.logger {}
 
@@ -64,15 +68,18 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
   override fun run() {
     runBlocking {
       launch {
-        if (debug) {
-          System.setProperty(org.slf4j.simple.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "debug")
-        }
+        (LoggerFactory.getLogger(ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger).level =
+            if (debug) Level.DEBUG else Level.INFO
         logger.debug { "Debug logging enabled" }
         if (dryRun) {
           logger.warn { "Dry run mode enabled" }
         }
         try {
-          Configuration.setDefaultApiClient(Config.defaultClient())
+          Configuration.setDefaultApiClient(
+              Config.defaultClient().apply {
+                connectTimeout = 3.seconds.inWholeMilliseconds.toInt()
+                isDebugging = debug
+              })
         } catch (e: Exception) {
           logger.error(e) { "Unable to init kubeconfig" }
           exitProcess(1)
