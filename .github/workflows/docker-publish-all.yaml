@@ -22,7 +22,7 @@ jobs:
           java-version: "17"
       - name: Gradle build
         id: build
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4
         with:
           build-root-directory: ups-k8s-scaler
           arguments: |
