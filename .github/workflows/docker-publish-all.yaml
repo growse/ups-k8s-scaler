@@ -19,14 +19,11 @@ jobs:
       - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018 # v4
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: "21"
       - name: Gradle build
-        id: build
-        uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3
-        with:
-          build-root-directory: ups-k8s-scaler
-          arguments: |
-            ktfmtCheck
+        uses: gradle/actions/setup-gradle@v4
+      - name: ktfmtCheck
+        run: ./ups-k8s-scaler/gradlew -p ups-k8s-scaler ktfmtCheck
   build:
     name: Build
     needs:
