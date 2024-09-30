@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/graalvm/native-image-community:22.0.2-muslib as build
+FROM ghcr.io/graalvm/native-image-community:23.0.0-muslib as build
 
 RUN microdnf -y install findutils unzip
 
