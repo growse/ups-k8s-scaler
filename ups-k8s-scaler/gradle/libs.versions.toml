@@ -1,6 +1,6 @@
 [versions]
 clikt = "4.4.0"
-graalvm = "0.10.3"
+graalvm = "0.10.4"
 junit = "5.11.3"
 logback = "1.5.12"
 k8s-client = "21.0.2"
