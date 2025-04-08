@@ -7,7 +7,7 @@ k8s-client = "22.0.1"
 kotlin = "2.1.20"
 kotlin-logging = "3.0.5"
 kotlin-result = "2.0.1"
-kotlinx-coroutines = "1.10.1"
+kotlinx-coroutines = "1.10.2"
 ktfmt = "0.21.0"
 slf4j = "2.0.17"
 
