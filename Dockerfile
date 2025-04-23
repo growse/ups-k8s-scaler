@@ -16,7 +16,7 @@ COPY --from=build /app/ups-k8s-scaler/build/native/nativeCompile/ups-k8s-scaler 
 RUN apk add upx
 RUN upx /ups-k8s-scaler
 
-FROM bitnami/kubectl:1.32.3 as kubectl
+FROM bitnami/kubectl:1.32.4 as kubectl
 
 FROM alpine:3.21
 COPY --from=build /app/ups-k8s-scaler/build/native/nativeCompile/ups-k8s-scaler /ups-k8s-scaler
