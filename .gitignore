@@ -2,3 +2,4 @@
 **/.idea
 **/build
 ups-k8s-scaler/bin
+target
