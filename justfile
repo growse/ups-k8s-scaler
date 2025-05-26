@@ -10,7 +10,7 @@ tasks:
     {{gradlec}} tasks
 
 build:
-    {{gradlec}} assembleDist
+    {{gradlec}} assembleDist --scan
 
 test:
     {{gradlec}} build --scan

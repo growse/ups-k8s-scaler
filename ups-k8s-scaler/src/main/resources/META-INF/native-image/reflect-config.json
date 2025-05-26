@@ -9,6 +9,21 @@
   "name":"[Lsun.security.pkcs.SignerInfo;"
 },
 {
+  "name":"ch.qos.logback.classic.BasicConfigurator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.joran.SerializedModelConfigurator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.spi.LogbackServiceProvider"
+},
+{
+  "name":"ch.qos.logback.classic.util.DefaultJoranConfigurator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"com.sun.crypto.provider.AESCipher$General",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -53,16 +68,17 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"io.kubernetes.client.custom.V1Patch$V1PatchAdapter",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
   "name":"io.kubernetes.client.openapi.models.V1AWSElasticBlockStoreVolumeSource",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1Affinity",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.kubernetes.client.openapi.models.V1AppArmorProfile",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -97,6 +113,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1ClusterTrustBundleProjection",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1ConfigMapEnvSource",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -123,6 +144,11 @@
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1ContainerPort",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.kubernetes.client.openapi.models.V1ContainerResizePolicy",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -267,6 +293,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1ImageVolumeSource",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1KeyToPath",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -302,7 +333,7 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"io.kubernetes.client.openapi.models.V1ManagedFieldsEntry",
+  "name":"io.kubernetes.client.openapi.models.V1ModifyVolumeStatus",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -422,6 +453,16 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1PodResourceClaim",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.kubernetes.client.openapi.models.V1PodSchedulingGate",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1PodSecurityContext",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -463,6 +504,11 @@
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1RBDVolumeSource",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.kubernetes.client.openapi.models.V1ResourceClaim",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -547,6 +593,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1SleepAction",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1StatefulSet",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -558,6 +609,11 @@
 },
 {
   "name":"io.kubernetes.client.openapi.models.V1StatefulSetList",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.kubernetes.client.openapi.models.V1StatefulSetOrdinals",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -632,12 +688,12 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"io.kubernetes.client.openapi.models.V1Volume",
+  "name":"io.kubernetes.client.openapi.models.V1TypedObjectReference",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"io.kubernetes.client.openapi.models.V1VolumeResourceRequirements",
+  "name":"io.kubernetes.client.openapi.models.V1Volume",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -657,6 +713,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"io.kubernetes.client.openapi.models.V1VolumeResourceRequirements",
+  "allDeclaredFields":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.kubernetes.client.openapi.models.V1VsphereVirtualDiskVolumeSource",
   "allDeclaredFields":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -672,24 +733,44 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"java.beans.Introspector"
+},
+{
+  "name":"java.io.FilePermission"
+},
+{
   "name":"java.lang.Class",
-  "methods":[
-    {"name":"getRecordComponents","parameterTypes":[] },
-    {"name":"isRecord","parameterTypes":[] }
-  ]
+  "methods":[{"name":"getRecordComponents","parameterTypes":[] }, {"name":"isRecord","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.RuntimePermission"
 },
 {
   "name":"java.lang.String"
 },
 {
+  "name":"java.lang.Thread",
+  "fields":[{"name":"threadLocalRandomProbe"}]
+},
+{
   "name":"java.lang.reflect.RecordComponent",
-  "methods":[
-    {"name":"getName","parameterTypes":[] },
-    {"name":"getType","parameterTypes":[] }
-  ]
+  "methods":[{"name":"getName","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
+},
+{
+  "name":"java.net.NetPermission"
+},
+{
+  "name":"java.net.SocketPermission"
+},
+{
+  "name":"java.net.URLPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
 },
 {
   "name":"java.security.AlgorithmParametersSpi"
+},
+{
+  "name":"java.security.AllPermission"
 },
 {
   "name":"java.security.KeyStoreSpi"
@@ -698,7 +779,7 @@
   "name":"java.security.MessageDigestSpi"
 },
 {
-  "name":"java.security.SecureRandomParameters"
+  "name":"java.security.SecurityPermission"
 },
 {
   "name":"java.security.cert.PKIXRevocationChecker"
@@ -728,22 +809,73 @@
   "name":"java.util.Date"
 },
 {
+  "name":"java.util.PropertyPermission"
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicBoolean",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicReference",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.Striped64",
+  "fields":[{"name":"base"}, {"name":"cellsBusy"}]
+},
+{
   "name":"javax.security.auth.x500.X500Principal",
   "fields":[{"name":"thisX500Name"}],
   "methods":[{"name":"<init>","parameterTypes":["sun.security.x509.X500Name"] }]
 },
 {
+  "name":"javax.smartcardio.CardPermission"
+},
+{
   "name":"kotlin.reflect.jvm.internal.ReflectionFactoryImpl"
 },
 {
-  "name": "kotlin.internal.jdk8.JDK8PlatformImplementations",
-  "allPublicMethods": true,
-  "allDeclaredFields":true,
-  "allDeclaredMethods":true,
-  "allDeclaredConstructors":true
+  "name":"kotlinx.coroutines.EventLoopImplBase",
+  "fields":[{"name":"_delayed$volatile"}, {"name":"_isCompleted$volatile"}, {"name":"_queue$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.JobSupport",
+  "fields":[{"name":"_parentHandle$volatile"}, {"name":"_state$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.JobSupport$Finishing",
+  "fields":[{"name":"_exceptionsHolder$volatile"}, {"name":"_isCompleting$volatile"}, {"name":"_rootCause$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.internal.DispatchedContinuation",
+  "fields":[{"name":"_reusableCancellableContinuation$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.internal.LockFreeLinkedListNode",
+  "fields":[{"name":"_next$volatile"}, {"name":"_prev$volatile"}, {"name":"_removedRef$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.internal.LockFreeTaskQueue",
+  "fields":[{"name":"_cur$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.internal.LockFreeTaskQueueCore",
+  "fields":[{"name":"_next$volatile"}, {"name":"_state$volatile"}]
+},
+{
+  "name":"kotlinx.coroutines.scheduling.CoroutineScheduler",
+  "fields":[{"name":"_isTerminated$volatile"}, {"name":"controlState$volatile"}, {"name":"parkedWorkersStack$volatile"}]
 },
 {
   "name":"org.bouncycastle.jcajce.provider.asymmetric.COMPOSITE$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.CONTEXT$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.CompositeSignatures$Mappings",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -756,6 +888,10 @@
 },
 {
   "name":"org.bouncycastle.jcajce.provider.asymmetric.DSTU4145$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.Dilithium$Mappings",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -779,6 +915,10 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.Falcon$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"org.bouncycastle.jcajce.provider.asymmetric.GM$Mappings",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -795,7 +935,23 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.MLDSA$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.MLKEM$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.NTRU$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"org.bouncycastle.jcajce.provider.asymmetric.RSA$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.jcajce.provider.asymmetric.SLHDSA$Mappings",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -1103,6 +1259,82 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.bouncycastle.jce.provider.BouncyCastleProvider",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.BIKE$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.BouncyCastlePQCProvider",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.CMCE$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.Dilithium$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.Falcon$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.Frodo$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.HQC$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.Kyber$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.LMS$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.NH$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.NTRU$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.NTRUPrime$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.Picnic$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.Rainbow$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.SABER$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.SPHINCS$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.SPHINCSPlus$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.bouncycastle.pqc.jcajce.provider.XMSS$Mappings",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"sun.security.pkcs12.PKCS12KeyStore",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -1136,7 +1368,7 @@
 },
 {
   "name":"sun.security.provider.NativePRNG",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
 },
 {
   "name":"sun.security.provider.SHA",
