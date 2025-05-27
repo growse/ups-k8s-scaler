@@ -3,3 +3,4 @@
 **/build
 ups-k8s-scaler/bin
 target
+.env
