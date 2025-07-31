@@ -18,6 +18,9 @@ test:
 clean:
     {{gradlec}} clean
 
+format:
+    {{gradlec}} ktfmtFormat
+
 build-container:
     docker buildx build -t ups-k8s-scaler .
 
