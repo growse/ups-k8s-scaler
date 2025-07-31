@@ -16,11 +16,11 @@ COPY --from=build /app/ups-k8s-scaler/build/native/nativeCompile/ups-k8s-scaler 
 RUN apk add upx
 RUN upx /ups-k8s-scaler
 
-FROM bitnami/kubectl:1.33.3 as kubectl
+FROM rancher/kubectl:1.33.3 as kubectl
 
 FROM alpine:3.22
 COPY --from=build /app/ups-k8s-scaler/build/native/nativeCompile/ups-k8s-scaler /ups-k8s-scaler
-COPY --from=kubectl /opt/bitnami/kubectl/bin/kubectl /kubectl
+RUN apk add kubectl
 ENV PATH=/
 ENTRYPOINT [ "/ups-k8s-scaler" ]
 CMD []
