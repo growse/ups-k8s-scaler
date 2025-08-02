@@ -24,7 +24,7 @@ dependencies {
   testImplementation(libs.kotlinx.coroutines.test)
 }
 
-kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_22) } }
+kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_24) } }
 
 tasks.test { useJUnitPlatform() }
 
