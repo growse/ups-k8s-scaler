@@ -155,29 +155,32 @@ suspend fun scaleK8sResources(
           }
           when (val either = it.thing) {
             is Either.Left<*, V1Deployment, *> -> {
-
-              AppsV1Api()
-                  .replaceNamespacedDeploymentScale(
-                      either.left.metadata?.name,
-                      either.left.metadata?.namespace,
-                      V1Scale().apply {
-                        spec = V1ScaleSpec().replicas(it.desiredReplicas)
-                        metadata = either.left.metadata
-                      })
-                  .dryRun(if (dryRun) "All" else null)
-                  .execute()
+              either.left.metadata?.run {
+                AppsV1Api()
+                    .replaceNamespacedDeploymentScale(
+                        name,
+                        namespace ?: "",
+                        V1Scale().apply {
+                          spec = V1ScaleSpec().replicas(it.desiredReplicas)
+                          metadata = either.left.metadata
+                        })
+                    .dryRun(if (dryRun) "All" else null)
+                    .execute()
+              }
             }
             is Either.Right<*, *, V1StatefulSet> -> {
-              AppsV1Api()
-                  .replaceNamespacedStatefulSetScale(
-                      either.right.metadata?.name,
-                      either.right.metadata?.namespace,
-                      V1Scale().apply {
-                        spec = V1ScaleSpec().replicas(it.desiredReplicas)
-                        metadata = either.whichever().metadata
-                      })
-                  .dryRun(if (dryRun) "All" else null)
-                  .execute()
+              either.right.metadata?.run {
+                AppsV1Api()
+                    .replaceNamespacedStatefulSetScale(
+                        name,
+                        namespace ?: "",
+                        V1Scale().apply {
+                          spec = V1ScaleSpec().replicas(it.desiredReplicas)
+                          metadata = either.whichever().metadata
+                        })
+                    .dryRun(if (dryRun) "All" else null)
+                    .execute()
+              }
             }
           }
           yield()
