@@ -1,6 +1,5 @@
 [versions]
 clikt = "5.0.3"
-graalvm = "0.11.0"
 junit = "5.14.0"
 logback = "1.5.20"
 k8s-client = "24.0.0"
@@ -27,6 +26,5 @@ logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "l
 logging = ["kotlin-logging","slf4j","logback"]
 
 [plugins]
-graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }

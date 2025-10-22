@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
   alias(libs.plugins.kotlin)
   application
-  alias(libs.plugins.graalvm)
   alias(libs.plugins.ktfmt)
 }
 
@@ -28,8 +27,4 @@ kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_24) } }
 
 tasks.test { useJUnitPlatform() }
 
-application {
-  mainClass.set("com.growse.k8s.upsEventHandler.MainKt")
-  applicationDefaultJvmArgs =
-      listOf("-agentlib:native-image-agent=config-output-dir=/tmp/libnativeoutput")
-}
+application { mainClass.set("com.growse.k8s.upsEventHandler.MainKt") }
