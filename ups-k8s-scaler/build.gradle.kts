@@ -26,6 +26,8 @@ dependencies {
 
 kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_24) } }
 
+java { toolchain { languageVersion.set(JavaLanguageVersion.of(24)) } }
+
 tasks.test {
   useJUnitPlatform()
   finalizedBy(tasks.jacocoTestReport)
@@ -45,3 +47,11 @@ tasks.jacocoTestCoverageVerification {
 }
 
 application { mainClass.set("com.growse.k8s.upsEventHandler.MainKt") }
+
+develocity {
+  buildScan {
+    termsOfUseUrl.set("https://gradle.com/help/legal-terms-of-use")
+    termsOfUseAgree.set("yes")
+    publishing.onlyIf { false }
+  }
+}
