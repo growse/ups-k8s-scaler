@@ -1,3 +1,3 @@
 rootProject.name = "ups-k8s-scaler"
 
-plugins { id("com.gradle.develocity") version ("4.1") }
+plugins { id("com.gradle.develocity") version ("4.2.2") }
