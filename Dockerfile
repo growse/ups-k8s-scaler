@@ -12,6 +12,7 @@ RUN --mount=type=cache,id=gradle,target=/root/.gradle ups-k8s-scaler/gradlew -p 
 FROM eclipse-temurin:24-jre-alpine-3.22
 RUN apk add kubectl
 COPY --from=build /app/ups-k8s-scaler/build/distributions/ups-k8s-scaler-*.tar /ups-k8s-scaler.tar
-RUN tar xvf /ups-k8s-scaler.tar
-ENTRYPOINT [ "/ups-k8s-scaler-1.0-SNAPSHOT/bin/ups-k8s-scaler" ]
+RUN tar xvf /ups-k8s-scaler.tar && rm /ups-k8s-scaler.tar
+RUN mv /ups-k8s-scaler-* /app
+ENTRYPOINT [ "/app/bin/ups-k8s-scaler" ]
 CMD []

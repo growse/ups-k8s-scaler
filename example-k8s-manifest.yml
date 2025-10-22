@@ -65,6 +65,9 @@ spec:
           resources:
             limits:
               cpu: 200m
+              memory: 256M
+            requests:
+              cpu: 100m
               memory: 128M
           env:
             - name: UPSMON_HOST

@@ -1,6 +1,6 @@
 **/.gradle
 **/.idea
 **/build
-ups-k8s-scaler/bin
+**/bin
 target
 .env
