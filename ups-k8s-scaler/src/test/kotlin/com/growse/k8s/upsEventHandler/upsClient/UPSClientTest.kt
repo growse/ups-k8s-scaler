@@ -1,237 +1,230 @@
 package com.growse.k8s.upsEventHandler.upsClient
 
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.result.shouldBeFailure
+import io.kotest.matchers.result.shouldBeSuccess
+import io.kotest.matchers.types.shouldBeInstanceOf
 import java.util.LinkedList
 import java.util.Queue
-import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertIs
-import kotlin.test.assertTrue
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 
-@ExperimentalCoroutinesApi
-internal class UPSClientTest {
-  @Test
-  fun `given a LIST UPS command, when the response is incomplete, an UnexpectedResultException is returned`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse = listOf("BEGIN LIST UPS", "UPS test \"Dummy\""),
-                getStatusVarResponse = "NONSENSE",
-            )
-        val result = Client(transport, mapOf()).connect()
-        assertTrue { result.isFailure }
-        assertIs<Client.UnexpectedResultException>(result.exceptionOrNull())
-        assertIs<Client.UPSResponse.Timeout>(
-            result.exceptionOrNull()?.let { (it as Client.UnexpectedResultException).upsResponse },
-        )
-      }
-
-  @Test
-  fun `given a LIST UPS command, when the response is not a list, an UnexpectedResultException is returned`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse = listOf("PARP", "NONSENSE"),
-                getStatusVarResponse = "NONSENSE",
-            )
-        val result = Client(transport, mapOf()).connect()
-        assertTrue { result.isFailure }
-        assertIs<Client.UnexpectedResultException>(result.exceptionOrNull())
-      }
-
-  @Test
-  fun `given a LIST UPS command, when the response is a list but with no valid UPS entries in it, then a NoUpsFoundException is returned`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse = listOf("BEGIN LIST UPS", "NONSENSE", "END LIST UPS"),
-                getStatusVarResponse = "NONSENSE",
-            )
-        val result = Client(transport, mapOf()).connect()
-        assertTrue { result.isFailure }
-        assertIs<Client.NoUPSFoundException>(result.exceptionOrNull())
-      }
-
-  @Test
-  fun `given a LIST UPS command, when the response is an empty list, then a NoUpsFoundException is returned`() =
-      runTest {
-        val transport = PretendTransport(getStatusVarResponse = "NONSENSE")
-        val result = Client(transport, mapOf()).connect()
-        assertTrue { result.isFailure }
-        assertIs<Client.NoUPSFoundException>(result.exceptionOrNull())
-      }
-
-  @Test
-  fun `given a UPS that's online, when the monitor is started, then the online callback is called`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse =
-                    listOf(
-                        "BEGIN LIST UPS",
-                        "UPS test \"dummy\"",
-                        "END LIST UPS",
-                    ),
-                upsName = "test",
-                getStatusVarResponse = "VAR ups ups.status \"OL\"",
-            )
-        var onlineToggle = false
-        var onbatteryToggle = false
-        var lowBatteryToggle = false
-        val result =
-            Client(
-                    transport,
-                    mapOf(
-                        Client.UPSStates.OnLine to { onlineToggle = true },
-                        Client.UPSStates.OnBattery to { onbatteryToggle = true },
-                        Client.UPSStates.LowBattery to { lowBatteryToggle = true },
-                    ),
+internal class UPSClientTest :
+    FunSpec({
+      test(
+          "given a LIST UPS command, when the response is incomplete, an UnexpectedResultException is returned") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse = listOf("BEGIN LIST UPS", "UPS test \"Dummy\""),
+                    getStatusVarResponse = "NONSENSE",
                 )
-                .connect()
-        assertTrue { result.isSuccess }
-        result.getOrNull()?.join()
-        assertTrue { onlineToggle }
-        assertFalse { onbatteryToggle }
-        assertFalse { lowBatteryToggle }
-      }
+            val result = Client(transport, mapOf()).connect()
+            result.shouldBeFailure()
+            val exception = result.exceptionOrNull()
+            exception.shouldBeInstanceOf<Client.UnexpectedResultException>()
+            (exception as Client.UnexpectedResultException)
+                .upsResponse
+                .shouldBeInstanceOf<Client.UPSResponse.Timeout>()
+          }
 
-  @Test
-  fun `given a UPS that's onbattery, when the monitor is started, then the onbattery callback is called`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse =
-                    listOf(
-                        "BEGIN LIST UPS",
-                        "UPS test \"dummy\"",
-                        "END LIST UPS",
-                    ),
-                upsName = "test",
-                getStatusVarResponse = "VAR ups ups.status \"OB\"",
-            )
-        var onlineToggle = false
-        var onbatteryToggle = false
-        var lowBatteryToggle = false
-        val result =
-            Client(
-                    transport,
-                    mapOf(
-                        Client.UPSStates.OnLine to { onlineToggle = true },
-                        Client.UPSStates.OnBattery to { onbatteryToggle = true },
-                        Client.UPSStates.LowBattery to { lowBatteryToggle = true },
-                    ),
+      test(
+          "given a LIST UPS command, when the response is not a list, an UnexpectedResultException is returned") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse = listOf("PARP", "NONSENSE"),
+                    getStatusVarResponse = "NONSENSE",
                 )
-                .connect()
-        assertTrue { result.isSuccess }
-        result.getOrNull()?.join()
-        assertFalse { onlineToggle }
-        assertTrue { onbatteryToggle }
-        assertFalse { lowBatteryToggle }
-      }
+            val result = Client(transport, mapOf()).connect()
+            result.shouldBeFailure()
+            result.exceptionOrNull().shouldBeInstanceOf<Client.UnexpectedResultException>()
+          }
 
-  @Test
-  fun `given a UPS that's lowbattery, when the monitor is started, then the lowbattery callback is called`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse =
-                    listOf(
-                        "BEGIN LIST UPS",
-                        "UPS test \"dummy\"",
-                        "END LIST UPS",
-                    ),
-                upsName = "test",
-                getStatusVarResponse = "VAR ups ups.status \"LB\"",
-            )
-        var onlineToggle = false
-        var onbatteryToggle = false
-        var lowBatteryToggle = false
-        val result =
-            Client(
-                    transport,
-                    mapOf(
-                        Client.UPSStates.OnLine to { onlineToggle = true },
-                        Client.UPSStates.OnBattery to { onbatteryToggle = true },
-                        Client.UPSStates.LowBattery to { lowBatteryToggle = true },
-                    ),
+      test(
+          "given a LIST UPS command, when the response is a list but with no valid UPS entries in it, then a NoUpsFoundException is returned") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse = listOf("BEGIN LIST UPS", "NONSENSE", "END LIST UPS"),
+                    getStatusVarResponse = "NONSENSE",
                 )
-                .connect()
-        assertTrue { result.isSuccess }
-        result.getOrNull()?.join()
-        assertFalse { onlineToggle }
-        assertFalse { onbatteryToggle }
-        assertTrue { lowBatteryToggle }
-      }
+            val result = Client(transport, mapOf()).connect()
+            result.shouldBeFailure()
+            result.exceptionOrNull().shouldBeInstanceOf<Client.NoUPSFoundException>()
+          }
 
-  @Test
-  fun `given a UPS that's online, when the monitor is started and the status returns trailing characters, then the online callback is called`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse =
-                    listOf(
-                        "BEGIN LIST UPS",
-                        "UPS test \"dummy\"",
-                        "END LIST UPS",
-                    ),
-                upsName = "test",
-                getStatusVarResponse = "VAR ups ups.status \"OL CHRG\"",
-            )
-        var onlineToggle = false
-        var onbatteryToggle = false
-        var lowBatteryToggle = false
-        val result =
-            Client(
-                    transport,
-                    mapOf(
-                        Client.UPSStates.OnLine to { onlineToggle = true },
-                        Client.UPSStates.OnBattery to { onbatteryToggle = true },
-                        Client.UPSStates.LowBattery to { lowBatteryToggle = true },
-                    ),
+      test(
+          "given a LIST UPS command, when the response is an empty list, then a NoUpsFoundException is returned") {
+            val transport = PretendTransport(getStatusVarResponse = "NONSENSE")
+            val result = Client(transport, mapOf()).connect()
+            result.shouldBeFailure()
+            result.exceptionOrNull().shouldBeInstanceOf<Client.NoUPSFoundException>()
+          }
+
+      test(
+          "given a UPS that's online, when the monitor is started, then the online callback is called") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse =
+                        listOf(
+                            "BEGIN LIST UPS",
+                            "UPS test \"dummy\"",
+                            "END LIST UPS",
+                        ),
+                    upsName = "test",
+                    getStatusVarResponse = "VAR ups ups.status \"OL\"",
                 )
-                .connect()
-        assertTrue { result.isSuccess }
-        result.getOrNull()?.join()
-        assertTrue { onlineToggle }
-        assertFalse { onbatteryToggle }
-        assertFalse { lowBatteryToggle }
-      }
+            var onlineToggle = false
+            var onbatteryToggle = false
+            var lowBatteryToggle = false
+            val result =
+                Client(
+                        transport,
+                        mapOf(
+                            Client.UPSStates.OnLine to { onlineToggle = true },
+                            Client.UPSStates.OnBattery to { onbatteryToggle = true },
+                            Client.UPSStates.LowBattery to { lowBatteryToggle = true },
+                        ),
+                    )
+                    .connect()
+            result.shouldBeSuccess()
+            shouldNotThrowAny { result.getOrNull()?.join() }
+            onlineToggle.shouldBeTrue()
+            onbatteryToggle.shouldBeFalse()
+            lowBatteryToggle.shouldBeFalse()
+          }
 
-  @Test
-  fun `given a UPS that's online, when the monitor is started and the status returns nonsense, then no callback is called`() =
-      runTest {
-        val transport =
-            PretendTransport(
-                listUpsCommandResponse =
-                    listOf(
-                        "BEGIN LIST UPS",
-                        "UPS test \"dummy\"",
-                        "END LIST UPS",
-                    ),
-                upsName = "test",
-                getStatusVarResponse = "NONSENSE",
-            )
-        var onlineToggle = false
-        var onbatteryToggle = false
-        var lowBatteryToggle = false
-        val result =
-            Client(
-                    transport,
-                    mapOf(
-                        Client.UPSStates.OnLine to { onlineToggle = true },
-                        Client.UPSStates.OnBattery to { onbatteryToggle = true },
-                        Client.UPSStates.LowBattery to { lowBatteryToggle = true },
-                    ),
+      test(
+          "given a UPS that's onbattery, when the monitor is started, then the onbattery callback is called") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse =
+                        listOf(
+                            "BEGIN LIST UPS",
+                            "UPS test \"dummy\"",
+                            "END LIST UPS",
+                        ),
+                    upsName = "test",
+                    getStatusVarResponse = "VAR ups ups.status \"OB\"",
                 )
-                .connect()
-        assertTrue { result.isSuccess }
-        result.getOrNull()?.join()
-        assertFalse { onlineToggle }
-        assertFalse { onbatteryToggle }
-        assertFalse { lowBatteryToggle }
-      }
+            var onlineToggle = false
+            var onbatteryToggle = false
+            var lowBatteryToggle = false
+            val result =
+                Client(
+                        transport,
+                        mapOf(
+                            Client.UPSStates.OnLine to { onlineToggle = true },
+                            Client.UPSStates.OnBattery to { onbatteryToggle = true },
+                            Client.UPSStates.LowBattery to { lowBatteryToggle = true },
+                        ),
+                    )
+                    .connect()
+            result.shouldBeSuccess()
+            shouldNotThrowAny { result.getOrNull()?.join() }
+            onlineToggle.shouldBeFalse()
+            onbatteryToggle.shouldBeTrue()
+            lowBatteryToggle.shouldBeFalse()
+          }
 
+      test(
+          "given a UPS that's lowbattery, when the monitor is started, then the lowbattery callback is called") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse =
+                        listOf(
+                            "BEGIN LIST UPS",
+                            "UPS test \"dummy\"",
+                            "END LIST UPS",
+                        ),
+                    upsName = "test",
+                    getStatusVarResponse = "VAR ups ups.status \"LB\"",
+                )
+            var onlineToggle = false
+            var onbatteryToggle = false
+            var lowBatteryToggle = false
+            val result =
+                Client(
+                        transport,
+                        mapOf(
+                            Client.UPSStates.OnLine to { onlineToggle = true },
+                            Client.UPSStates.OnBattery to { onbatteryToggle = true },
+                            Client.UPSStates.LowBattery to { lowBatteryToggle = true },
+                        ),
+                    )
+                    .connect()
+            result.shouldBeSuccess()
+            shouldNotThrowAny { result.getOrNull()?.join() }
+            onlineToggle.shouldBeFalse()
+            onbatteryToggle.shouldBeFalse()
+            lowBatteryToggle.shouldBeTrue()
+          }
+
+      test(
+          "given a UPS that's online, when the monitor is started and the status returns trailing characters, then the online callback is called") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse =
+                        listOf(
+                            "BEGIN LIST UPS",
+                            "UPS test \"dummy\"",
+                            "END LIST UPS",
+                        ),
+                    upsName = "test",
+                    getStatusVarResponse = "VAR ups ups.status \"OL CHRG\"",
+                )
+            var onlineToggle = false
+            var onbatteryToggle = false
+            var lowBatteryToggle = false
+            val result =
+                Client(
+                        transport,
+                        mapOf(
+                            Client.UPSStates.OnLine to { onlineToggle = true },
+                            Client.UPSStates.OnBattery to { onbatteryToggle = true },
+                            Client.UPSStates.LowBattery to { lowBatteryToggle = true },
+                        ),
+                    )
+                    .connect()
+            result.shouldBeSuccess()
+            shouldNotThrowAny { result.getOrNull()?.join() }
+            onlineToggle.shouldBeTrue()
+            onbatteryToggle.shouldBeFalse()
+            lowBatteryToggle.shouldBeFalse()
+          }
+
+      test(
+          "given a UPS that's online, when the monitor is started and the status returns nonsense, then no callback is called") {
+            val transport =
+                PretendTransport(
+                    listUpsCommandResponse =
+                        listOf(
+                            "BEGIN LIST UPS",
+                            "UPS test \"dummy\"",
+                            "END LIST UPS",
+                        ),
+                    upsName = "test",
+                    getStatusVarResponse = "NONSENSE",
+                )
+            var onlineToggle = false
+            var onbatteryToggle = false
+            var lowBatteryToggle = false
+            val result =
+                Client(
+                        transport,
+                        mapOf(
+                            Client.UPSStates.OnLine to { onlineToggle = true },
+                            Client.UPSStates.OnBattery to { onbatteryToggle = true },
+                            Client.UPSStates.LowBattery to { lowBatteryToggle = true },
+                        ),
+                    )
+                    .connect()
+            result.shouldBeSuccess()
+            shouldNotThrowAny { result.getOrNull()?.join() }
+            onlineToggle.shouldBeFalse()
+            onbatteryToggle.shouldBeFalse()
+            lowBatteryToggle.shouldBeFalse()
+          }
+    }) {
   class PretendTransport(
       private val listUpsCommandResponse: List<String> =
           listOf(
@@ -257,7 +250,6 @@ internal class UPSClientTest {
             clear()
             add(getStatusVarResponse)
           }
-          // Disconnect so the client exits the loop
           connected = false
         }
         else -> {}

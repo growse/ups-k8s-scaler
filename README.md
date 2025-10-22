@@ -55,6 +55,42 @@ $ docker run --rm -it -e KUBECONFIG=/kubeConfig  -e UPSD_HOSTNAME=my-hostname.ex
 $
 ```
 
+## Development
+
+### Running Tests
+
+```shell
+# Run tests
+$ ./ups-k8s-scaler/gradlew -p ups-k8s-scaler test
+
+# Or using just
+$ just test
+```
+
+### Test Coverage
+
+The project uses JaCoCo for test coverage reporting. To generate HTML coverage reports:
+
+```shell
+# Generate coverage report
+$ ./ups-k8s-scaler/gradlew -p ups-k8s-scaler test jacocoTestReport
+
+# Or using just
+$ just coverage
+```
+
+The HTML report will be available at `ups-k8s-scaler/build/reports/jacoco/index.html`. Open this file in your browser to view detailed coverage metrics for all packages and classes.
+
+### Code Formatting
+
+```shell
+# Format code
+$ ./ups-k8s-scaler/gradlew -p ups-k8s-scaler ktfmtFormat
+
+# Or using just
+$ just format
+```
+
 ## TODO
 
 - [x] Do statefulsets as well

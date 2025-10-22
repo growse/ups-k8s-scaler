@@ -1,6 +1,6 @@
 [versions]
 clikt = "5.0.3"
-junit = "5.14.0"
+kotest = "6.0.0.M1"
 logback = "1.5.20"
 k8s-client = "24.0.0"
 kotlin = "2.2.20"
@@ -12,11 +12,11 @@ slf4j = "2.0.17"
 
 [libraries]
 clikt = { group = "com.github.ajalt.clikt", name = "clikt", version.ref = "clikt" }
-junit = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
+kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 k8s-client = { group = "io.kubernetes", name = "client-java", version.ref = "k8s-client" }
 kotlin-logging = { group = "io.github.microutils", name = "kotlin-logging-jvm", version.ref = "kotlin-logging" }
 kotlin-result = { group = "com.michael-bull.kotlin-result", name = "kotlin-result", version.ref = "kotlin-result" }
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 slf4j = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }

@@ -15,6 +15,10 @@ build:
 test:
     {{gradlec}} build --scan
 
+coverage:
+    {{gradlec}} test jacocoTestReport
+    @echo "Coverage report: ups-k8s-scaler/build/reports/jacoco/index.html"
+
 clean:
     {{gradlec}} clean
 
