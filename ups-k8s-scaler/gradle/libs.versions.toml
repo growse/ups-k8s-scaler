@@ -7,7 +7,7 @@ kotlin = "2.2.21"
 kotlin-logging = "3.0.5"
 kotlin-result = "2.1.0"
 kotlinx-coroutines = "1.10.2"
-ktfmt = "0.24.0"
+ktfmt = "0.25.0"
 slf4j = "2.0.17"
 
 [libraries]
