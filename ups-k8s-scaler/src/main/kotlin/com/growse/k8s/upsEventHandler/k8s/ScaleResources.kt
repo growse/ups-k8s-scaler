@@ -139,26 +139,26 @@ suspend fun scaleK8sResources(
       .filter { it.desiredReplicas != it.currentReplicas }
       .forEach {
         try {
-          val name =
+          val fullyQualifiedName =
               "${it.thing.whichever().metadata.namespace}/${it.thing.whichever().metadata.name}"
           if (scaleDirection == ScaleDirection.UP) {
             val delay =
                 it.thing.whichever().metadata?.labels?.get(ONLINE_DELAY_LABEL_KEY)?.toIntOrNull()
                     ?: DEFAULT_ONLINE_DELAY
-            logger.info { "Pausing for $delay seconds before scaling $name up" }
+            logger.info { "Pausing for $delay seconds before scaling $fullyQualifiedName up" }
             if (!dryRun) {
               delay(delay.seconds)
             }
           }
           logger.info {
-            "Scaling $name from ${it.currentReplicas ?: "unknown"} replicas=${it.desiredReplicas}"
+            "Scaling $fullyQualifiedName from ${it.currentReplicas ?: "unknown"} replicas=${it.desiredReplicas}"
           }
           when (val either = it.thing) {
             is Either.Left<*, V1Deployment, *> -> {
               either.left.metadata?.run {
                 AppsV1Api()
                     .replaceNamespacedDeploymentScale(
-                        name,
+                        name!!,
                         namespace ?: "",
                         V1Scale().apply {
                           spec = V1ScaleSpec().replicas(it.desiredReplicas)
@@ -172,7 +172,7 @@ suspend fun scaleK8sResources(
               either.right.metadata?.run {
                 AppsV1Api()
                     .replaceNamespacedStatefulSetScale(
-                        name,
+                        name!!,
                         namespace ?: "",
                         V1Scale().apply {
                           spec = V1ScaleSpec().replicas(it.desiredReplicas)
