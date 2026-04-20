@@ -26,7 +26,7 @@ const val DEFAULT_ONLINE_DELAY = 1 // s
 
 enum class ScaleDirection {
   UP,
-  DOWN
+  DOWN,
 }
 
 private val logger = KotlinLogging.logger {}
@@ -97,7 +97,8 @@ suspend fun scaleK8sResources(
             deployment.metadata?.labels?.containsKey(ORDER_LABEL_KEY) ?: false ||
                 deployment.spec?.template?.spec?.volumes?.any {
                   persistentVolumesWithStorageClassNames.contains(
-                      it.persistentVolumeClaim?.claimName)
+                      it.persistentVolumeClaim?.claimName
+                  )
                 } ?: false
           }
           .map { Deployment(it) }
@@ -163,7 +164,8 @@ suspend fun scaleK8sResources(
                         V1Scale().apply {
                           spec = V1ScaleSpec().replicas(it.desiredReplicas)
                           metadata = either.left.metadata
-                        })
+                        },
+                    )
                     .dryRun(if (dryRun) "All" else null)
                     .execute()
               }
@@ -177,7 +179,8 @@ suspend fun scaleK8sResources(
                         V1Scale().apply {
                           spec = V1ScaleSpec().replicas(it.desiredReplicas)
                           metadata = either.whichever().metadata
-                        })
+                        },
+                    )
                     .dryRun(if (dryRun) "All" else null)
                     .execute()
               }

@@ -43,7 +43,8 @@ fun StorageV1Api.maybeListStorageClass(
               .sendInitialEvents(sendInitialEvents)
               .timeoutSeconds(timeoutSeconds)
               .watch(watch)
-              .execute())
+              .execute()
+      )
     } catch (e: ApiException) {
       Result.failure(e)
     }

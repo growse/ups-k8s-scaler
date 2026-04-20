@@ -19,7 +19,7 @@ import mu.KotlinLogging
  */
 class Client(
     private val transport: Transport,
-    private val callbackMap: Map<UPSStates, suspend () -> Unit>
+    private val callbackMap: Map<UPSStates, suspend () -> Unit>,
 ) {
   private val logger = KotlinLogging.logger {}
   private val monitorDelay: Duration = 2.seconds
@@ -74,16 +74,20 @@ class Client(
       UPSResponse.Error(responseLines.first().substring(errorPrefix.length))
     } else if (responseLines.size == 1 && responseLines.first() == timeoutString) {
       UPSResponse.Timeout
-    } else if (responseLines.size == 1 &&
-        responseLines.first().startsWith(varPrefix) &&
-        responseLines.first().split(" ", limit = 4).size == varPrefix.length) {
+    } else if (
+        responseLines.size == 1 &&
+            responseLines.first().startsWith(varPrefix) &&
+            responseLines.first().split(" ", limit = 4).size == varPrefix.length
+    ) {
       responseLines.first().split(" ", limit = 4).let {
         UPSResponse.UPSVariable(it[2], it[3].removeSurrounding("\""))
       }
-    } else if (responseLines.first().startsWith(beginPrefix) &&
-        responseLines.last().startsWith(endPrefix) &&
-        responseLines.first().substring(beginPrefix.length) ==
-            responseLines.last().substring(endPrefix.length)) {
+    } else if (
+        responseLines.first().startsWith(beginPrefix) &&
+            responseLines.last().startsWith(endPrefix) &&
+            responseLines.first().substring(beginPrefix.length) ==
+                responseLines.last().substring(endPrefix.length)
+    ) {
       when (responseLines.first().substring(beginPrefix.length)) {
         "LIST UPS" -> {
           UPSResponse.UPSList(
@@ -159,7 +163,8 @@ class Client(
           logger.info { "There are ${upsListResponse.upsList.size} UPS devices available" }
           if (upsListResponse.upsList.isNotEmpty()) {
             Result.success(
-                coroutineScope { launch { monitorUps(upsListResponse.upsList.first()) } })
+                coroutineScope { launch { monitorUps(upsListResponse.upsList.first()) } }
+            )
           } else {
             Result.failure(NoUPSFoundException())
           }

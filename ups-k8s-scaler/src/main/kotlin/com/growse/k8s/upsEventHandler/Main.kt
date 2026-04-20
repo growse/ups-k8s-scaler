@@ -80,7 +80,8 @@ class Main : CliktCommand(name = "ups-k8s-scaler") {
               Config.defaultClient().apply {
                 connectTimeout = 3.seconds.inWholeMilliseconds.toInt()
                 isDebugging = debug
-              })
+              }
+          )
         } catch (e: Exception) {
           logger.error(e) { "Unable to init kubeconfig" }
           exitProcess(1)
