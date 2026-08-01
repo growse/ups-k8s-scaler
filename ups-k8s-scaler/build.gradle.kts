@@ -24,9 +24,9 @@ dependencies {
   testImplementation(libs.kotlinx.coroutines.test)
 }
 
-kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_24) } }
+kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_25) } }
 
-java { toolchain { languageVersion.set(JavaLanguageVersion.of(24)) } }
+java { toolchain { languageVersion.set(JavaLanguageVersion.of(25)) } }
 
 tasks.test {
   useJUnitPlatform()
