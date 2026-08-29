@@ -11,6 +11,7 @@ ENV JAVA_TOOL_OPTIONS=-Djava.net.preferIPv6Addresses=system
 RUN --mount=type=cache,id=gradle,target=/root/.gradle ups-k8s-scaler/gradlew -p ups-k8s-scaler assembleDist --no-daemon
 
 FROM eclipse-temurin:25-jre-alpine-3.23
+ENV JAVA_TOOL_OPTIONS=-Djava.net.preferIPv6Addresses=system
 RUN apk add kubectl
 COPY --from=build /app/ups-k8s-scaler/build/distributions/ups-k8s-scaler-*.tar /ups-k8s-scaler.tar
 RUN tar xvf /ups-k8s-scaler.tar && rm /ups-k8s-scaler.tar
