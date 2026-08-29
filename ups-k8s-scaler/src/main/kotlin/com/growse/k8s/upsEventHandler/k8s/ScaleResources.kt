@@ -113,7 +113,7 @@ suspend fun scaleK8sResources(
           ScaleDirection.UP -> -1
           ScaleDirection.DOWN -> 1
         } *
-            (it.whichever().metadata.labels?.getOrDefault(ORDER_LABEL_KEY, null)?.toInt()
+            (it.whichever().metadata?.labels?.get(ORDER_LABEL_KEY)?.toIntOrNull()
                 ?: DEFAULT_ORDER_VALUE)
       }
       .map {
@@ -140,12 +140,17 @@ suspend fun scaleK8sResources(
       .filter { it.desiredReplicas != it.currentReplicas }
       .forEach {
         try {
-          val fullyQualifiedName =
-              "${it.thing.whichever().metadata.namespace}/${it.thing.whichever().metadata.name}"
+          val metadata = it.thing.whichever().metadata
+          val name = metadata?.name
+          val namespace = metadata?.namespace
+          val fullyQualifiedName = "$namespace/$name"
+          if (name == null || namespace == null) {
+            logger.error { "Skipping $fullyQualifiedName: missing name or namespace in metadata" }
+            return@forEach
+          }
           if (scaleDirection == ScaleDirection.UP) {
             val delay =
-                it.thing.whichever().metadata?.labels?.get(ONLINE_DELAY_LABEL_KEY)?.toIntOrNull()
-                    ?: DEFAULT_ONLINE_DELAY
+                metadata.labels?.get(ONLINE_DELAY_LABEL_KEY)?.toIntOrNull() ?: DEFAULT_ONLINE_DELAY
             logger.info { "Pausing for $delay seconds before scaling $fullyQualifiedName up" }
             if (!dryRun) {
               delay(delay.seconds)
@@ -154,36 +159,23 @@ suspend fun scaleK8sResources(
           logger.info {
             "Scaling $fullyQualifiedName from ${it.currentReplicas ?: "unknown"} replicas=${it.desiredReplicas}"
           }
-          when (val either = it.thing) {
-            is Either.Left<*, V1Deployment, *> -> {
-              either.left.metadata?.run {
-                AppsV1Api()
-                    .replaceNamespacedDeploymentScale(
-                        name!!,
-                        namespace ?: "",
-                        V1Scale().apply {
-                          spec = V1ScaleSpec().replicas(it.desiredReplicas)
-                          metadata = either.left.metadata
-                        },
-                    )
-                    .dryRun(if (dryRun) "All" else null)
-                    .execute()
+          val scale =
+              V1Scale().apply {
+                spec = V1ScaleSpec().replicas(it.desiredReplicas)
+                this.metadata = metadata
               }
+          when (it.thing) {
+            is Either.Left<*, V1Deployment, *> -> {
+              AppsV1Api()
+                  .replaceNamespacedDeploymentScale(name, namespace, scale)
+                  .dryRun(if (dryRun) "All" else null)
+                  .execute()
             }
             is Either.Right<*, *, V1StatefulSet> -> {
-              either.right.metadata?.run {
-                AppsV1Api()
-                    .replaceNamespacedStatefulSetScale(
-                        name!!,
-                        namespace ?: "",
-                        V1Scale().apply {
-                          spec = V1ScaleSpec().replicas(it.desiredReplicas)
-                          metadata = either.whichever().metadata
-                        },
-                    )
-                    .dryRun(if (dryRun) "All" else null)
-                    .execute()
-              }
+              AppsV1Api()
+                  .replaceNamespacedStatefulSetScale(name, namespace, scale)
+                  .dryRun(if (dryRun) "All" else null)
+                  .execute()
             }
           }
           yield()

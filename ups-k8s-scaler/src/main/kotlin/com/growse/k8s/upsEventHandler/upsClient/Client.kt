@@ -6,7 +6,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import mu.KotlinLogging
@@ -31,30 +30,32 @@ class Client(
    * @return a parsed [UPSResponse] of what came back
    */
   private fun sendCommand(command: String): UPSResponse {
-    transport.writeLine(command)
-    return (transport.run {
-          readLine().let {
-            if (it.startsWith("BEGIN ")) {
-              val responseLines = mutableListOf(it)
-              while (!responseLines.last().startsWith("END ")) {
-                try {
-                  responseLines.add(readLine())
-                } catch (e: Transport.TimeoutException) {
-                  logger.error(e) { "Timeout from socket" }
-                  return@let listOf("TIMEOUT")
-                }
-              }
-              responseLines
-            } else {
-              listOf(it)
+    return try {
+      transport.writeLine(command)
+      val first = transport.readLine()
+      val responseLines =
+          if (first.startsWith("BEGIN ")) {
+            val lines = mutableListOf(first)
+            while (!lines.last().startsWith("END ")) {
+              lines.add(transport.readLine())
             }
+            lines
+          } else {
+            listOf(first)
           }
-        })
-        .run(this::parseResponseLines)
+      parseResponseLines(responseLines)
+    } catch (e: Transport.TimeoutException) {
+      logger.error(e) { "Timeout from socket" }
+      parseResponseLines(listOf("TIMEOUT"))
+    } catch (e: java.io.IOException) {
+      logger.error(e) { "IO error communicating with UPS" }
+      UPSResponse.NoResponse
+    }
   }
 
   private val errorPrefix = "ERR "
   private val varPrefix = "VAR "
+  private val varResponseTokenCount = 4
   private val timeoutString = "TIMEOUT"
   private val beginPrefix = "BEGIN "
   private val endPrefix = "END "
@@ -77,7 +78,7 @@ class Client(
     } else if (
         responseLines.size == 1 &&
             responseLines.first().startsWith(varPrefix) &&
-            responseLines.first().split(" ", limit = 4).size == varPrefix.length
+            responseLines.first().split(" ", limit = 4).size == varResponseTokenCount
     ) {
       responseLines.first().split(" ", limit = 4).let {
         UPSResponse.UPSVariable(it[2], it[3].removeSurrounding("\""))
@@ -163,7 +164,9 @@ class Client(
           logger.info { "There are ${upsListResponse.upsList.size} UPS devices available" }
           if (upsListResponse.upsList.isNotEmpty()) {
             Result.success(
-                coroutineScope { launch { monitorUps(upsListResponse.upsList.first()) } }
+                CoroutineScope(Dispatchers.Default).launch {
+                  monitorUps(upsListResponse.upsList.first())
+                }
             )
           } else {
             Result.failure(NoUPSFoundException())
