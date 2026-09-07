@@ -24,7 +24,7 @@ class SocketTransport(private val host: String, private val port: UShort) : Tran
 
   override fun connect() {
     logger.info { "Connecting to $host:$port" }
-    socket = Socket(host, port.toInt()).apply { soTimeout = 1000 }
+    socket = Socket(host, port.toInt()).apply { soTimeout = 3000 }
     reader = BufferedReader(InputStreamReader(socket.getInputStream()))
     writer = OutputStreamWriter(socket.getOutputStream())
     connected = true

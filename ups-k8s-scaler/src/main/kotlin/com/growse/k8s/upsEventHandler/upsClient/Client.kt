@@ -143,6 +143,9 @@ class Client(
             }
           }
         }
+        is UPSResponse.Timeout -> {
+          logger.warn { "Timed out polling UPS status, will retry next cycle" }
+        }
         else -> {
           logger.error("Unexpected response from UPS status call: $upsStateValue")
         }
