@@ -2,7 +2,7 @@
 clikt = "5.1.0"
 kotest = "6.2.6"
 logback = "1.6.6"
-k8s-client = "27.0.1"
+k8s-client = "28.0.0"
 kotlin = "2.4.21"
 kotlin-logging = "3.0.5"
 kotlin-result = "2.3.1"
